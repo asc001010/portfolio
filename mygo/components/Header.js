@@ -14,7 +14,9 @@ export default function Header() {
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-8">
             <a href="/" className="flex items-center gap-2 group">
-              <img src="/logo.webp" alt="내꼬 로고" className="h-10 w-10 object-cover rounded-full" />
+              <div className="w-10 h-10 rounded-full overflow-hidden border border-zinc-100 shadow-sm">
+                <img src="/logo.webp" alt="내꼬 로고" className="w-full h-full object-cover" />
+              </div>
             </a>
             <nav className="hidden md:flex items-center gap-6">
               <a href="#branch" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors">지점 및 요금 안내</a>

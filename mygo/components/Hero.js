@@ -12,7 +12,9 @@ export default function Hero() {
       <div className="container mx-auto px-6 relative z-10 flex flex-col items-center text-center">
         {/* Logo Badge */}
         <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-          <img src="/logo.webp" alt="내꼬 로고" className="w-24 h-24 md:w-28 md:h-28 object-cover rounded-full shadow-lg" />
+          <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden shadow-2xl border-4 border-white">
+            <img src="/logo.webp" alt="내꼬 로고" className="w-full h-full object-cover" />
+          </div>
         </div>
         
         {/* Hero Title */}

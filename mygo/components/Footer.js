@@ -6,7 +6,9 @@ export default function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 md:col-span-2">
-            <img src="/logo.webp" alt="내꼬 로고" className="w-12 h-12 mb-6 bg-white rounded-full p-1 object-cover" />
+            <div className="w-12 h-12 mb-6 bg-white rounded-full overflow-hidden p-1 shadow-sm">
+              <img src="/logo.webp" alt="내꼬 로고" className="w-full h-full object-cover rounded-full" />
+            </div>
             <p className="text-sm leading-relaxed max-w-sm mb-6">개출되는 개인 창고 서비스, 내꼬(NAEKKO). <br />언제 어디서든 당신의 소중한 짐을 안전하게 보관하세요.</p>
             <div className="flex items-center gap-4">
               <a href="#" className="p-2 bg-zinc-900 rounded-full hover:text-white transition-colors"><Instagram className="w-5 h-5" /></a>
