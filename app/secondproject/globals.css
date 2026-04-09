@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: #536346;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #94a684;
+  --color-on-primary-container: #2c3b21;
+  --color-surface: #faf9f5;
+  --color-on-surface: #1b1c1a;
+  --color-on-surface-variant: #444840;
+  --color-background: #faf9f5;
+  --color-surface-container-highest: #e3e2df;
+  --color-surface-container-low: #f4f4f0;
+  --color-surface-bright: #ffffff;
+  --color-outline-variant: #c5c8bd;
+  --color-tertiary: #765566;
+
+  --font-headline: var(--font-noto-serif), serif;
+  --font-body: var(--font-manrope), sans-serif;
+  --font-label: var(--font-manrope), sans-serif;
+
+  --spacing-100: 25rem;
+  --spacing-128: 32rem;
+}
+
+:root {
+  --background: #faf9f5;
+  --foreground: #1b1c1a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #faf9f5; /* keeping light theme as default for the design */
+    --foreground: #1b1c1a;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}

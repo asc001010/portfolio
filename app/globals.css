@@ -1,26 +1,86 @@
 @import "tailwindcss";
 
+@theme {
+  --color-on-primary-fixed-variant: #005d6c;
+  --color-surface-container-highest: #dee3e6;
+  --color-on-secondary-fixed: #2b4443;
+  --color-surface-variant: #dee3e6;
+  --color-on-surface: #2d3335;
+  --color-surface-bright: #f8f9fa;
+  --color-secondary-fixed-dim: #bedad9;
+  --color-secondary: #4a6463;
+  --color-surface-tint: #0a6879;
+  --color-tertiary: #3a647d;
+  --color-on-secondary: #e2fefd;
+  --color-secondary-fixed: #cce8e7;
+  --color-surface-container-high: #e5e9eb;
+  --color-secondary-container: #cce8e7;
+  --color-tertiary-dim: #2d5870;
+  --color-error-container: #fa746f;
+  --color-surface-container-lowest: #ffffff;
+  --color-outline-variant: #adb3b5;
+  --color-secondary-dim: #3e5857;
+  --color-on-primary-fixed: #003e49;
+  --color-primary-fixed: #98e3f5;
+  --color-outline: #767c7e;
+  --color-surface-container-low: #f1f4f5;
+  --color-error: #a83836;
+  --color-inverse-primary: #98e3f5;
+  --color-surface-container: #ebeef0;
+  --color-surface: #f8f9fa;
+  --color-primary: #0a6879;
+  --color-primary-dim: #005c6b;
+  --color-surface-dim: #d5dbdd;
+  --color-on-tertiary: #f4f9ff;
+  --color-primary-container: #98e3f5;
+  --color-on-primary-container: #005361;
+  --color-on-secondary-fixed-variant: #476060;
+  --color-tertiary-fixed-dim: #a7d2ee;
+  --color-tertiary-fixed: #b5e0fd;
+  --color-on-error: #fff7f6;
+  --color-error-dim: #67040d;
+  --color-inverse-on-surface: #9b9d9e;
+  --color-background: #f8f9fa;
+  --color-on-error-container: #6e0a12;
+  --color-on-tertiary-fixed: #0c3e55;
+  --color-on-secondary-container: #3d5656;
+  --color-on-primary: #effbff;
+  --color-tertiary-container: #b5e0fd;
+  --color-on-background: #2d3335;
+  --color-on-tertiary-container: #255169;
+  --color-on-surface-variant: #5a6062;
+  --color-inverse-surface: #0c0f10;
+  --color-on-tertiary-fixed-variant: #305b73;
+  --color-primary-fixed-dim: #8ad4e7;
+
+  --font-headline: "Manrope", sans-serif;
+  --font-body: "Plus Jakarta Sans", sans-serif;
+  --font-label: "Plus Jakarta Sans", sans-serif;
+
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: #f8f9fa;
+  --foreground: #2d3335;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, #0a6879 0%, #98e3f5 100%);
+}
+
+.glass-nav {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 }
