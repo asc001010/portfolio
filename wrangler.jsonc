@@ -10,6 +10,11 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+  "vars": {
+    "NEXT_PUBLIC_SUPABASE_URL": "https://otkyutofocdjahpfitiv.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_4HDK82adD652c5o98hnATA_m9CwdMVi",
+    "NODE_VERSION": "20"
+  },
   "observability": {
     "enabled": true
   }
