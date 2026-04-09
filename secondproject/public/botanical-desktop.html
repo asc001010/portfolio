@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Botanical Atelier - Premium Web Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#536346",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#94a684",
+                        "on-primary-container": "#2c3b21",
+                        "surface": "#faf9f5",
+                        "on-surface": "#1b1c1a",
+                        "on-surface-variant": "#444840",
+                        "background": "#faf9f5",
+                        "surface-container-highest": "#e3e2df",
+                        "surface-container-low": "#f4f4f0",
+                        "surface-bright": "#ffffff",
+                        "outline-variant": "#c5c8bd",
+                        "tertiary": "#765566",
+                    },
+                    fontFamily: {
+                        headline: ["Noto Serif"],
+                        body: ["Manrope"],
+                        label: ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { min-height: 100vh; }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+
+    <!-- Web Header / Navbar -->
+    <header class="fixed top-0 w-full z-50 bg-background/90 backdrop-blur-lg border-b border-outline-variant/30 transition-all">
+        <div class="max-w-[1600px] mx-auto flex justify-between items-center px-6 md:px-12 xl:px-24 py-5 w-full">
+            <!-- Mobile Menu Icon -->
+            <button class="md:hidden hover:opacity-70 transition-opacity">
+                <span class="material-symbols-outlined text-primary">menu</span>
+            </button>
+            
+            <!-- Logo -->
+            <div class="flex-1 md:flex-none flex justify-center md:justify-start">
+                <h1 class="text-xl md:text-2xl font-serif tracking-[0.15em] uppercase text-primary">Botanical Atelier</h1>
+            </div>
+            
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-12 absolute left-1/2 -translate-x-1/2">
+                <a href="#" class="font-label text-xs uppercase tracking-[0.15em] text-on-surface hover:text-primary transition-colors">Shop</a>
+                <a href="#" class="font-label text-xs uppercase tracking-[0.15em] text-on-surface hover:text-primary transition-colors">Our Story</a>
+                <a href="#" class="font-label text-xs uppercase tracking-[0.15em] text-on-surface hover:text-primary transition-colors">Process</a>
+                <a href="#" class="font-label text-xs uppercase tracking-[0.15em] text-on-surface hover:text-primary transition-colors">Journal</a>
+            </nav>
+            
+            <!-- Icons & Cart -->
+            <div class="flex items-center gap-6 text-primary">
+                <button class="hidden md:flex hover:opacity-70 transition-opacity">
+                    <span class="material-symbols-outlined" style="font-size: 22px;">person</span>
+                </button>
+                <button class="hover:opacity-70 transition-opacity flex items-center gap-2">
+                    <span class="material-symbols-outlined" style="font-size: 22px;">local_mall</span>
+                    <span class="hidden md:block font-label text-xs uppercase tracking-widest pl-1">Cart (0)</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="overflow-x-hidden pt-16 md:pt-0">
+        <!-- Hero Section : Desktop Panoramic Layout -->
+        <section class="relative h-[80vh] md:h-screen min-h-[700px] w-full flex items-center px-6 md:px-12 xl:px-24 overflow-hidden">
+            <div class="absolute inset-0 z-0 bg-stone-900">
+                <img class="w-full h-full object-cover scale-105 opacity-80" data-alt="Dreamy landscape of misty ancient pine forest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAt1AbA8kud8p0n0c9C9Xk1C8_XTgf20xuIQBI5JLuQL4EQifZ-qwLKpW78iacdRnR249BDtTQ_e9P5mgZOBm3aGVWjcJw8xjJznOU-bzlDjQrrhsxuAmgUZ5XCDOQ-Vhp0wHRINsZvOlkJ7Qprzy6X2fFwiBx3RSpq50fOmzOrLp9cEoVHJvb8DsLObrG45yz-ZibTKpmBO3PkoZOJpVOaTB7XbeKgBJ2ymjeWqUYxn3YbZF88cRGzSKVfA6bvcsjNb_iL6qBo71CA" />
+                <div class="absolute inset-0 bg-gradient-to-r from-stone-950/80 via-stone-900/40 to-transparent hidden md:block"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-stone-950/60 md:hidden"></div>
+            </div>
+            
+            <div class="relative z-10 w-full max-w-[1600px] mx-auto pt-12 md:pt-0 text-center md:text-left">
+                <div class="max-w-2xl mx-auto md:mx-0">
+                    <span class="label-sm uppercase tracking-[0.3em] text-surface-bright/80 font-label text-xs md:text-sm">The Sylvan Muse</span>
+                    <h2 class="font-headline text-6xl md:text-8xl xl:text-[9rem] text-surface-bright tracking-tighter leading-[1.0] italic mt-4 mb-6 pt-2">
+                        Whispers of <br/>
+                        <span class="font-normal not-italic xl:ml-24 md:ml-12">the Wild.</span>
+                    </h2>
+                    <p class="text-surface-bright/90 font-light text-base md:text-xl md:max-w-md mx-auto md:mx-0 mb-10 leading-relaxed">
+                        A collection of small-batch botanical perfumes, sustainably foraged from the misty forests of the Pacific.
+                    </p>
+                    <div class="flex justify-center md:justify-start">
+                        <button class="bg-surface-bright text-primary px-10 md:px-12 py-4 md:py-5 font-label text-xs md:text-sm tracking-[0.2em] uppercase hover:bg-primary hover:text-white transition-all duration-500 ease-out">
+                            Explore Scents
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Story : Asymmetric Split Layout -->
+        <section class="py-24 md:py-40 px-6 md:px-12 xl:px-24 bg-surface">
+            <div class="max-w-[1600px] mx-auto flex flex-col md:flex-row items-center gap-16 md:gap-32">
+                <div class="w-full md:w-5/12 relative group order-2 md:order-1 mt-12 md:mt-0">
+                    <div class="absolute -top-6 md:-top-12 -left-6 md:-left-12 w-[110%] h-[110%] bg-surface-container-low -z-10 group-hover:-translate-x-4 group-hover:-translate-y-4 transition-transform duration-1000"></div>
+                    <img class="w-full aspect-[4/5] object-cover shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2jqLeDzgYeAwvszNb31Suzjkr99h2_JKuWchEJO5N1m7M2IcBMgnxZbeMY7VLCIU3yfwbZEuw4ZGs02BdcFqoSHOOZcJn7RM0hsWX20xVyG19WEMbDuhPdhn3LHUS0K-AopX_sh8ZxTsc0WvZPxh85mk8DZbWmX1pLsrPiPFPrZNEZgAkWbDC09SSduCbn8x8KvJiARn-Lh4cFwH-fQKw0jbo8WKL2Jpaf9FjxOD9WPoS8OvbZAKluGefdbtHSnSy65C2SDSohaii"/>
+                </div>
+                
+                <div class="w-full md:w-7/12 space-y-8 order-1 md:order-2">
+                    <span class="block text-primary font-label uppercase tracking-[0.2em] text-xs">Behind The Craft</span>
+                    <h3 class="font-headline text-4xl md:text-6xl text-primary leading-tight">Our Heritage</h3>
+                    <p class="text-on-surface-variant leading-relaxed text-lg md:text-xl font-light">
+                        Born from the soil of sustainable harvesting, Sylvan Muse captures the ephemeral essence of the forest floor. We believe in perfumery that honors the rhythm of the seasons, extracting quiet luxury from nature's profound simplicity.
+                    </p>
+                    <div class="pt-6">
+                        <a class="inline-flex items-center gap-3 font-label text-sm uppercase tracking-widest text-primary border-b border-primary/30 pb-2 hover:border-primary transition-all group" href="#">
+                            Discover Our Ethos 
+                            <span class="material-symbols-outlined text-sm group-hover:translate-x-2 transition-transform duration-300">east</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Signature Scents : 3-Column Desktop Grid -->
+        <section class="py-24 md:py-32 bg-surface-container-low px-6 md:px-12 xl:px-24">
+            <div class="max-w-[1600px] mx-auto">
+                <div class="flex flex-col md:flex-row justify-between md:items-end mb-16 md:mb-24 gap-6">
+                    <div>
+                        <h3 class="font-headline text-4xl md:text-5xl mb-3 text-on-surface">Signature Scents</h3>
+                        <p class="font-label text-xs md:text-sm uppercase tracking-widest text-on-surface-variant">The 2024 Collection</p>
+                    </div>
+                    <a href="#" class="hidden md:inline-flex mb-2 items-center gap-2 font-label text-xs uppercase tracking-widest text-on-surface hover:text-primary transition-colors border-b border-on-surface/30 pb-1">Shop Full Collection &rarr;</a>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+                    <!-- Product Card 1 -->
+                    <div class="group cursor-pointer">
+                        <div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-highest mb-6">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTyFI7ptSEfyHo0Bc3N8l6LoTTyPW6xkT3VpBz4fW7KbXMzI27yOuZ2ic4SdBiUUx978zgN39yrnCGKJlpuKFaVUaZiUKVl_2FEOrsq-dGkdyZvo3USh1mRvagN7-JkZcKKylETTka88ppfz5Cf3I_S0p3t-u5QrwWho7SK3QwWk-0EL_D4WLsjsXv05aJzE4lpIkjFKpJdg44Z5rbHgDOvKmLjGTEiBBrJDzpzE_VFWRS7RUsMXeiYEhGetQ1MjH72Q4nAt7jiR2I"/>
+                            <div class="absolute top-4 left-4 z-10">
+                                <span class="bg-surface/90 backdrop-blur px-4 py-2 text-[10px] uppercase font-bold tracking-widest text-on-surface border border-outline-variant/30">New Release</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-headline text-2xl text-on-surface mb-2 mt-1">Misty Cedar</h4>
+                                <div class="flex gap-2 text-on-surface-variant">
+                                    <span class="font-label text-[10px] uppercase tracking-[0.1em]">Woody</span>
+                                    <span class="font-label text-[10px] uppercase tracking-[0.1em]">•</span>
+                                    <span class="font-label text-[10px] uppercase tracking-[0.1em]">Ozone</span>
+                                </div>
+                            </div>
+                            <span class="text-on-surface font-body text-xl">$185</span>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 2 -->
+                    <div class="group cursor-pointer md:mt-16">
+                        <div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-highest mb-6">
+                            <img class="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 transition-all duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhyVj0zgRNDWscAlEVCmSi7rdirmF5pAzf4iN0KcE-_pXEbY0Hh0WqLcAj258YK7eBsPhSRjOViTrtGU68yG7LTwfC6YtwGpuI_NMNDmcHYQ0s6nI3Z8s0yPfIFxvzZhr5xnYW45Az8Jz8xu77j9yc8LysCziufB8G58thfJAhSKShL7dv7ziu6u30uhIGUE6OlAOBXQfqbksym9zy8zYh9aOKRxgsE-4LadZXQ1AS0TRCnFbWgwlop82_47t4_ecxUw6Gz3aB1lK1"/>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-headline text-2xl text-on-surface mb-2 mt-1">Wild Violet</h4>
+                                <div class="flex gap-2">
+                                    <span class="font-label text-[10px] uppercase text-on-surface-variant tracking-[0.1em]">Floral Essence</span>
+                                </div>
+                            </div>
+                            <span class="text-on-surface font-body text-xl">$160</span>
+                        </div>
+                    </div>
+
+                    <!-- Product Card 3 -->
+                    <div class="group cursor-pointer md:mt-32">
+                        <div class="relative w-full aspect-[3/4] overflow-hidden bg-surface-container-highest mb-6">
+                            <img class="w-full h-full object-cover grayscale opacity-90 group-hover:grayscale-0 transition-all duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ7OrvD8132aYvHULK8P7pvKCEiwcRgVH2Gcejts7mFoqgKhMh-ofoTWNB7O4zZcwB07atMc4SxslUuRPZm2gme_Sr55iEIFkN3PnrU8ZUF0Nz1TeSe24ArFGO10qbGDvsymLa38malvn_EeXIJQtQcbidI6Tp5kNU7HLUDj_iwAGZtFmf77UW_6hBmREcbH48yEUUU2eDf_isP0b9lEkJ78JPwAIpgeiA2qZwfDVKaMcTd0kM_L7L0SuPewjbSFctPd0n4yAYt9Fo"/>
+                        </div>
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-headline text-2xl text-on-surface mb-2 mt-1">Green Moss</h4>
+                                <div class="flex gap-2">
+                                    <span class="font-label text-[10px] uppercase text-on-surface-variant tracking-[0.1em]">Earthy Base</span>
+                                </div>
+                            </div>
+                            <span class="text-on-surface font-body text-xl">$175</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Process : Horizontal Timeline for Web -->
+        <section class="py-24 md:py-32 px-6 md:px-12 xl:px-24 bg-surface border-t border-outline-variant/20">
+            <div class="max-w-[1400px] mx-auto">
+                <div class="text-center mb-20 md:mb-32 space-y-6">
+                    <span class="text-tertiary material-symbols-outlined text-4xl block">compost</span>
+                    <h3 class="font-headline text-4xl md:text-5xl text-on-surface">The Slow Process</h3>
+                    <p class="text-on-surface-variant md:text-xl max-w-lg mx-auto italic font-serif">"In nature, nothing is rushed, yet everything is accomplished."</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12 relative">
+                    <!-- Desktop connecting line -->
+                    <div class="hidden md:block absolute top-[64px] left-[16%] right-[16%] h-[1px] bg-outline-variant/30 z-0"></div>
+                    
+                    <!-- Step 1 -->
+                    <div class="flex flex-col items-center text-center gap-8 relative z-10">
+                        <div class="w-28 h-28 md:w-32 md:h-32 bg-surface rounded-full flex items-center justify-center border border-outline-variant/30 text-primary text-3xl font-serif scale-100 hover:scale-105 transition-transform bg-opacity-100 shadow-sm">I.</div>
+                        <div>
+                            <h5 class="font-headline text-2xl mb-4 text-on-surface">Wild Foraging</h5>
+                            <p class="text-base text-on-surface-variant md:text-lg leading-relaxed max-w-xs mx-auto font-light">Sourcing only what the season allows, ensuring ecological balance.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="flex flex-col items-center text-center gap-8 relative z-10">
+                        <div class="w-28 h-28 md:w-32 md:h-32 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center shadow-lg transform md:-translate-y-4 text-3xl font-serif scale-100 hover:scale-105 transition-transform">II.</div>
+                        <div>
+                            <h5 class="font-headline text-2xl mb-4 text-on-surface">Slow Infusion</h5>
+                            <p class="text-base text-on-surface-variant md:text-lg leading-relaxed max-w-xs mx-auto font-light">Six months of quiet maturation in cold-pressed organic oils.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="flex flex-col items-center text-center gap-8 relative z-10">
+                        <div class="w-28 h-28 md:w-32 md:h-32 bg-surface rounded-full flex items-center justify-center border border-outline-variant/30 text-primary text-3xl font-serif scale-100 hover:scale-105 transition-transform bg-opacity-100 shadow-sm">III.</div>
+                        <div>
+                            <h5 class="font-headline text-2xl mb-4 text-on-surface">Hand Bottling</h5>
+                            <p class="text-base text-on-surface-variant md:text-lg leading-relaxed max-w-xs mx-auto font-light">Each botanical formula is filtered and numbered by hand in our atelier.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Web Expanded Components Area -->
+        <section class="py-16 md:py-24 bg-surface-container-highest px-6 md:px-12">
+            <h4 class="font-label text-xs uppercase tracking-[0.3em] mb-10 text-center text-on-surface-variant">Key Botanicals</h4>
+            <div class="flex flex-wrap justify-center gap-6 max-w-4xl mx-auto">
+                <div class="bg-surface px-6 py-3 md:px-8 md:py-4 rounded-none flex items-center gap-3 border border-outline-variant/20 hover:border-primary transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-tertiary">spa</span>
+                    <span class="text-sm font-label text-on-surface">Vetiver</span>
+                </div>
+                <div class="bg-surface px-6 py-3 md:px-8 md:py-4 rounded-none flex items-center gap-3 border border-outline-variant/20 hover:border-primary transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-tertiary">park</span>
+                    <span class="text-sm font-label text-on-surface">Sandalwood</span>
+                </div>
+                <div class="bg-surface px-6 py-3 md:px-8 md:py-4 rounded-none flex items-center gap-3 border border-outline-variant/20 hover:border-primary transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-tertiary">psychology</span>
+                    <span class="text-sm font-label text-on-surface">Amber</span>
+                </div>
+                <div class="bg-surface px-6 py-3 md:px-8 md:py-4 rounded-none flex items-center gap-3 border border-outline-variant/20 hover:border-primary transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-tertiary">local_florist</span>
+                    <span class="text-sm font-label text-on-surface">Oakmoss</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Refined Web Footer -->
+    <footer class="bg-stone-900 text-stone-300 py-16 md:py-24 px-6 md:px-12 xl:px-24">
+        <div class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
+            <div class="md:col-span-4 text-center md:text-left space-y-6">
+                <h2 class="font-serif text-2xl text-stone-100 tracking-[0.2em] uppercase">Botanical Atelier</h2>
+                <p class="font-light text-stone-400 max-w-xs mx-auto md:mx-0 leading-relaxed">
+                    Capturing the quiet poetry of the deep forest in every glass vessel, made locally with intention.
+                </p>
+            </div>
+            
+            <div class="md:col-span-8 flex flex-wrap justify-center md:justify-end gap-12 md:gap-24 text-center md:text-left">
+                <div class="space-y-6">
+                    <h4 class="font-label text-xs uppercase tracking-[0.2em] text-stone-100">Explore</h4>
+                    <nav class="flex flex-col gap-4">
+                        <a href="#" class="font-body text-sm hover:text-white transition-colors">Scent Collection</a>
+                        <a href="#" class="font-body text-sm hover:text-white transition-colors">Discovery Set</a>
+                        <a href="#" class="font-body text-sm hover:text-white transition-colors">Gifting</a>
+                    </nav>
+                </div>
+                <div class="space-y-6">
+                    <h4 class="font-label text-xs uppercase tracking-[0.2em] text-stone-100">Atelier</h4>
+                    <nav class="flex flex-col gap-4">
+                        <a href="#" class="font-body text-sm hover:text-white transition-colors">Our Ethos</a>
+                        <a href="#" class="font-body text-sm hover:text-white transition-colors">Sustainability</a>
+                        <a href="#" class="font-body text-sm hover:text-white transition-colors">Journal</a>
+                    </nav>
+                </div>
+                <div class="space-y-6">
+                    <h4 class="font-label text-xs uppercase tracking-[0.2em] text-stone-100">Support</h4>
+                    <nav class="flex flex-col gap-4">
+                        <a href="#" class="font-body text-sm hover:text-white transition-colors">Contact</a>
+                        <a href="#" class="font-body text-sm hover:text-white transition-colors">FAQ</a>
+                        <a href="#" class="font-body text-sm hover:text-white transition-colors">Returns</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        
+        <div class="max-w-[1600px] mx-auto mt-24 pt-8 border-t border-stone-800 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="font-label text-[10px] tracking-widest uppercase text-stone-500">© 2024 Botanical Atelier. All Rights Reserved.</p>
+            <div class="flex gap-8">
+                <a href="#" class="font-label text-[10px] tracking-widest uppercase text-stone-500 hover:text-stone-300 transition-colors">Privacy Policy</a>
+                <a href="#" class="font-label text-[10px] tracking-widest uppercase text-stone-500 hover:text-stone-300 transition-colors">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
