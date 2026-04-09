@@ -34,7 +34,7 @@ export default function Home() {
           <Link href="/" className="text-xl font-bold text-slate-900 tracking-tighter font-headline">
             포트폴리오
           </Link>
-          <div className="hidden md:flex items-center gap-10 font-headline font-medium text-sm tracking-wide">
+          <div className="flex items-center gap-6 md:gap-10 font-headline font-medium text-sm tracking-wide">
             <Link
               className="text-slate-900 font-semibold"
               href="/"
