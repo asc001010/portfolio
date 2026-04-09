@@ -83,6 +83,7 @@ export default function Home() {
                         alt={project.alt}
                         fill
                         className="object-cover"
+                        priority={index === 0}
                       />
                     </div>
                   </div>
