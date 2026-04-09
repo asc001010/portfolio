@@ -18,8 +18,8 @@ export default function LoginModal({ isOpen, onClose }) {
 
         <div className="px-8 pb-10 flex flex-col items-center">
           {/* Logo Area */}
-          <div className="w-20 h-20 bg-zinc-50 rounded-full flex items-center justify-center shadow-inner mb-6">
-            <span className="text-xl font-bold text-blue-600">내꼬</span>
+          <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mb-6 overflow-hidden border border-zinc-100 shadow-sm">
+            <img src="/logo.webp" alt="내꼬 로고" className="w-full h-full object-cover rounded-full" />
           </div>
           
           <h2 className="text-2xl font-bold text-[#1D1D1F] mb-2">프리미엄 공간, 내꼬</h2>
