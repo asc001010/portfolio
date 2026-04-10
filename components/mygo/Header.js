@@ -15,7 +15,7 @@ export default function Header() {
           <div className="flex items-center gap-8">
             <a href="/" className="flex items-center gap-2 group">
               <div className="w-10 h-10 rounded-full overflow-hidden border border-zinc-100 shadow-sm">
-                <img src="/logo.webp" alt="내꼬 로고" className="w-full h-full object-cover" fetchPriority="high" />
+                <img src="/logo.webp" alt="내꼬 로고" className="w-full h-full object-cover" />
               </div>
             </a>
             <nav className="hidden md:flex items-center gap-6">
