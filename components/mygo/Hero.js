@@ -35,13 +35,19 @@ export default function Hero() {
 
         {/* CTA Button Group */}
         <div className="flex flex-col sm:flex-row gap-4">
-          <button className="group relative flex items-center gap-3 bg-[#1D1D1F] text-white px-10 py-5 rounded-full text-lg font-bold transition-all hover:bg-black hover:shadow-2xl hover:scale-[1.02] active:scale-95">
+          <a 
+            href="#branch" 
+            className="group relative flex items-center justify-center gap-3 bg-[#1D1D1F] text-white px-10 py-5 rounded-full text-lg font-bold transition-all hover:bg-black hover:shadow-2xl hover:scale-[1.02] active:scale-95"
+          >
             지금 시작하기
             <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-          </button>
-          <button className="px-10 py-5 rounded-full text-lg font-bold text-zinc-600 border border-zinc-200 hover:bg-zinc-50 transition-all">
+          </a>
+          <a 
+            href="#box-guide" 
+            className="px-10 py-5 rounded-full text-lg font-bold text-zinc-600 border border-zinc-200 hover:bg-zinc-50 transition-all flex items-center justify-center"
+          >
             시설 둘러보기
-          </button>
+          </a>
         </div>
       </div>
     </section>
