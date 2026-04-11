@@ -13,10 +13,13 @@ export default function Navbar() {
   React.useEffect(() => {
     const supabase = createClient();
     
-    // Check active session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
+    // Check active session more reliably using getUser()
+    const checkUser = async () => {
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      setUser(currentUser ?? null);
+    };
+    
+    checkUser();
 
     // Listen for auth changes (login/logout)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
