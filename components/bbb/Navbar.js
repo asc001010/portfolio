@@ -15,7 +15,8 @@ export default function Navbar() {
     
     // Check active session more reliably using getUser()
     const checkUser = async () => {
-      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      const { data: { user: currentUser }, error } = await supabase.auth.getUser();
+      console.log("Supabase User Check:", currentUser ? "Logged In" : "Not Logged In", error ? error : "");
       setUser(currentUser ?? null);
     };
     

@@ -1,4 +1,5 @@
 import { Plus_Jakarta_Sans, Manrope } from "next/font/google";
+export const dynamic = 'force-dynamic';
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
