@@ -1,9 +1,14 @@
 "use client";
 
-import { useEffect } from 'react';
-import { X, Lock, Mail, MessageCircle, Link } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { X, Lock, Mail, MessageCircle, Link, Key } from 'lucide-react';
+import { login, signup, signInWithSocial } from '@/app/mygo/auth/actions';
 
 export default function LoginModal({ isOpen, onClose }) {
+  const [mode, setMode] = useState('login'); // 'login' or 'signup'
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   // Lock body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
@@ -17,6 +22,37 @@ export default function LoginModal({ isOpen, onClose }) {
   }, [isOpen]);
 
   if (!isOpen) return null;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    const formData = new FormData(e.target);
+    
+    try {
+      if (mode === 'login') {
+        const result = await login(formData);
+        if (result?.error) setError(result.error);
+      } else {
+        const result = await signup(formData);
+        if (result?.error) setError(result.error);
+      }
+    } catch (err) {
+      setError('인증 과정에서 오류가 발생했습니다.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSocialLogin = async (provider) => {
+    setLoading(true);
+    try {
+      await signInWithSocial(provider);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-[100] overflow-y-auto bg-black/60 backdrop-blur-sm p-4 py-8 animate-in fade-in duration-200">
@@ -39,23 +75,53 @@ export default function LoginModal({ isOpen, onClose }) {
             </div>
             
             <h2 className="text-2xl font-bold text-[#1D1D1F] mb-2">프리미엄 공간, 내꼬</h2>
-            <p className="text-zinc-500 text-sm text-center mb-8">
-              소중한 짐을 안전하게 보관하기 위한 첫 걸음.
+            <p className="text-zinc-500 text-sm text-center mb-6">
+              {mode === 'login' ? '소중한 짐을 안전하게 보관하기 위한 첫 걸음.' : '내꼬의 새로운 가족이 되어주세요.'}
             </p>
 
-            {/* Security Notice */}
-            <div className="w-full bg-[#1B2435]/5 border border-[#1B2435]/10 rounded-2xl p-4 mb-8 flex items-start gap-3">
-              <div className="bg-[#1B2435]/10 p-2 rounded-full">
-                <Lock className="w-4 h-4 text-[#1B2435]" />
+            {/* Email Form */}
+            <form onSubmit={handleSubmit} className="w-full space-y-4 mb-8">
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
+                <input 
+                  type="email" 
+                  name="email"
+                  placeholder="이메일 주소" 
+                  required
+                  className="w-full h-14 pl-12 pr-4 bg-zinc-50 border border-zinc-200 rounded-2xl text-sm focus:ring-2 focus:ring-[#1B2435] focus:border-transparent outline-none transition-all"
+                />
               </div>
-              <div>
-                <h4 className="text-sm font-bold text-[#1B2435] mb-1">안전한 정보 보호</h4>
-                <p className="text-xs text-zinc-600 leading-relaxed">
-                  내꼬는 고객님의 개인정보와 짐의 안전을 최우선으로 생각합니다. 
-                  모든 로그인과 결제 정보는 강력한 암호화 알고리즘으로 보호됩니다.
-                </p>
+              <div className="relative">
+                <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
+                <input 
+                  type="password" 
+                  name="password"
+                  placeholder="비밀번호" 
+                  required
+                  className="w-full h-14 pl-12 pr-4 bg-zinc-50 border border-zinc-200 rounded-2xl text-sm focus:ring-2 focus:ring-[#1B2435] focus:border-transparent outline-none transition-all"
+                />
               </div>
-            </div>
+              
+              {error && <p className="text-red-500 text-xs mt-2 px-2">{error}</p>}
+
+              <button 
+                type="submit" 
+                disabled={loading}
+                className="w-full h-14 bg-[#1B2435] text-white rounded-2xl font-bold hover:bg-[#1B2435]/90 transition-colors disabled:opacity-50"
+              >
+                {loading ? '처리 중...' : (mode === 'login' ? '로그인' : '회원가입')}
+              </button>
+
+              <div className="flex justify-center mt-4">
+                <button 
+                  type="button" 
+                  onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}
+                  className="text-xs text-zinc-500 hover:text-[#1B2435] font-medium transition-colors"
+                >
+                  {mode === 'login' ? '아직 계정이 없으신가요? 회원가입' : '이미 계정이 있으신가요? 로그인'}
+                </button>
+              </div>
+            </form>
 
             <div className="w-full h-px bg-zinc-100 mb-8 relative">
               <span className="absolute left-1/2 -translate-x-1/2 -top-3 bg-white px-4 text-xs font-medium text-zinc-400">
@@ -63,23 +129,23 @@ export default function LoginModal({ isOpen, onClose }) {
               </span>
             </div>
 
-            {/* Social Buttons (Demo) */}
+            {/* Social Buttons */}
             <div className="w-full space-y-3">
-              <button onClick={() => alert('카카오톡 로그인 데모입니다.')} className="w-full h-12 rounded-xl flex items-center justify-center gap-2 bg-[#FEE500] hover:bg-[#FEE500]/90 transition-colors font-semibold text-[#191919]">
+              <button 
+                type="button"
+                onClick={() => handleSocialLogin('kakao')}
+                className="w-full h-12 rounded-xl flex items-center justify-center gap-2 bg-[#FEE500] hover:bg-[#FEE500]/90 transition-colors font-semibold text-[#191919]"
+              >
                 <MessageCircle className="w-5 h-5" />
                 카카오톡으로 계속하기
               </button>
-              <button onClick={() => alert('네이버 로그인 데모입니다.')} className="w-full h-12 rounded-xl flex items-center justify-center gap-2 bg-[#03C75A] hover:bg-[#03C75A]/90 transition-colors font-semibold text-white">
-                <span className="font-black text-lg">N</span>
-                네이버로 계속하기
-              </button>
-              <button onClick={() => alert('구글 로그인 데모입니다.')} className="w-full h-12 rounded-xl flex items-center justify-center gap-2 border border-zinc-200 bg-white hover:bg-zinc-50 transition-colors font-semibold text-zinc-700">
+              <button 
+                type="button"
+                onClick={() => handleSocialLogin('google')}
+                className="w-full h-12 rounded-xl flex items-center justify-center gap-2 border border-zinc-200 bg-white hover:bg-zinc-50 transition-colors font-semibold text-zinc-700"
+              >
                 <span className="font-black text-lg text-blue-500">G</span>
                 구글 계정으로 계속하기
-              </button>
-              <button onClick={() => alert('인스타그램 로그인 데모입니다.')} className="w-full h-12 rounded-xl flex items-center justify-center gap-2 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCAF45] hover:opacity-90 transition-opacity font-semibold text-white">
-                <Link className="w-5 h-5" />
-                Instagram으로 계속하기
               </button>
             </div>
             

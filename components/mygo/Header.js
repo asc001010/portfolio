@@ -1,23 +1,41 @@
 "use client";
 
-import { useState } from 'react';
-import { Menu } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Menu, User } from 'lucide-react';
 import LoginModal from './LoginModal';
+import { createClient } from '@/lib/mygo/supabase/client';
+import Link from 'next/link';
 
 export default function Header() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const supabase = createClient();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+    getUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase]);
 
   return (
     <>
       <header className="sticky top-0 z-50 w-full glass-card border-none rounded-none border-b border-white/10">
         <div className="container mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <a href="/" className="flex items-center gap-2 group">
+            <Link href="/mygo" className="flex items-center gap-2 group">
               <div className="w-10 h-10 rounded-full overflow-hidden border border-zinc-100 shadow-sm">
                 <img src="/logo.webp" alt="내꼬 로고" className="w-full h-full object-cover" />
               </div>
-            </a>
+            </Link>
             <nav className="hidden md:flex items-center gap-6">
               <a href="#branch" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors">지점 및 요금 안내</a>
               <a href="#box-guide" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors">박스 크기 안내</a>
@@ -26,12 +44,22 @@ export default function Header() {
             </nav>
           </div>
           <div className="flex items-center gap-4">
-            <button 
-              onClick={() => setIsLoginModalOpen(true)}
-              className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors hidden sm:block mr-2"
-            >
-              로그인
-            </button>
+            {user ? (
+              <Link 
+                href="/mygo/profile"
+                className="flex items-center gap-2 text-sm font-medium text-[#1B2435] bg-zinc-100 px-4 py-2 rounded-full hover:bg-zinc-200 transition-colors"
+              >
+                <User className="w-4 h-4" />
+                마이페이지
+              </Link>
+            ) : (
+              <button 
+                onClick={() => setIsLoginModalOpen(true)}
+                className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors hidden sm:block mr-2"
+              >
+                로그인
+              </button>
+            )}
             <button className="btn-primary text-sm hidden sm:block">내꼬 시작하기</button>
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
