@@ -160,6 +160,14 @@ export default function LoginModal({ isOpen, onClose }) {
               </button>
               <button 
                 type="button"
+                onClick={() => handleSocialLogin('naver')}
+                className="w-full h-12 rounded-xl flex items-center justify-center gap-2 bg-[#03C75A] hover:bg-[#03C75A]/90 transition-colors font-semibold text-white"
+              >
+                <span className="font-black text-lg">N</span>
+                네이버로 계속하기
+              </button>
+              <button 
+                type="button"
                 onClick={() => handleSocialLogin('google')}
                 className="w-full h-12 rounded-xl flex items-center justify-center gap-2 border border-zinc-200 bg-white hover:bg-zinc-50 transition-colors font-semibold text-zinc-700"
               >
