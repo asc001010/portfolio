@@ -27,8 +27,8 @@ export async function login(formData) {
     return { error: "이메일 또는 비밀번호가 올바르지 않습니다. (" + error.message + ")" };
   }
 
-  revalidatePath("/", "layout");
-  redirect("/");
+  revalidatePath("/bbb", "layout");
+  redirect("/bbb");
 }
 
 export async function signup(formData) {
@@ -60,14 +60,14 @@ export async function signup(formData) {
     return { error: "회원가입 처리 중 오류가 발생했습니다. (" + error.message + ")" };
   }
 
-  revalidatePath("/", "layout");
-  redirect("/");
+  revalidatePath("/bbb", "layout");
+  redirect("/bbb");
 }
 
 export async function logout() {
   const supabase = await createClient();
   await supabase.auth.signOut();
   
-  revalidatePath("/", "layout");
-  redirect("/");
+  revalidatePath("/bbb", "layout");
+  redirect("/bbb");
 }

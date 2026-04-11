@@ -30,7 +30,7 @@ export default function Navbar() {
     <header className="fixed top-0 w-full z-50 glass-nav border-b border-surface-container-high shadow-sm bg-white/80 backdrop-blur-xl transition-all duration-300">
       <nav className="flex justify-between items-center px-8 h-20 max-w-7xl mx-auto">
         <div className="flex items-center gap-8">
-          <Link href="/">
+          <Link href="/bbb">
             <span className="text-2xl font-bold tracking-tighter text-teal-800 cursor-pointer font-headline">Pristine Editorial</span>
           </Link>
           <div className="hidden md:flex gap-8">
