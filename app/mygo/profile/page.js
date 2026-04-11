@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/mygo/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { logout } from '@/app/mygo/auth/actions'
 import { User, Package, Bell, Settings, LogOut, ChevronRight } from 'lucide-react'
 

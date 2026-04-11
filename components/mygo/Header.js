@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, User } from 'lucide-react';
 import LoginModal from './LoginModal';
-import { createClient } from '@/lib/mygo/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 
 export default function Header() {

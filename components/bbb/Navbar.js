@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { createClient } from '@/lib/bbb/supabase/client';
+import { createClient } from '@/lib/supabase/client';
 import { logout } from '@/app/bbb/auth/actions';
 
 export default function Navbar() {

@@ -1,7 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { createClient } from '@/lib/mygo/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 
 export async function login(formData) {
   const supabase = await createClient()
