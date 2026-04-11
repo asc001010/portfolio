@@ -15,7 +15,10 @@ export default function Navbar() {
     
     // Check active session more reliably using getUser()
     const checkUser = async () => {
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const hasUrl = !!supabaseUrl && !supabaseUrl.includes('placeholder');
       const { data: { user: currentUser }, error } = await supabase.auth.getUser();
+      console.log("Supabase Connection Check:", hasUrl ? "Configured" : "MISSING ENV VARS", "URL Prefix:", supabaseUrl?.substring(0, 15));
       console.log("Supabase User Check:", currentUser ? "Logged In" : "Not Logged In", error ? error : "");
       setUser(currentUser ?? null);
     };
