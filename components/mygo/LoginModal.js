@@ -3,11 +3,14 @@
 import { useState, useEffect } from 'react';
 import { X, Lock, Mail, MessageCircle, Link, Key } from 'lucide-react';
 import { login, signup, signInWithSocial } from '@/app/mygo/auth/actions';
+import { useRouter } from 'next/navigation';
 
 export default function LoginModal({ isOpen, onClose }) {
+  const router = useRouter();
   const [mode, setMode] = useState('login'); // 'login' or 'signup'
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -27,29 +30,44 @@ export default function LoginModal({ isOpen, onClose }) {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setMessage(null);
     const formData = new FormData(e.target);
     
     try {
-      if (mode === 'login') {
-        const result = await login(formData);
-        if (result?.error) setError(result.error);
-      } else {
-        const result = await signup(formData);
-        if (result?.error) setError(result.error);
+      const result = mode === 'login' ? await login(formData) : await signup(formData);
+      
+      if (result?.error) {
+        setError(result.error);
+        setLoading(false);
+      } else if (result?.success) {
+        if (result.message) {
+          setMessage(result.message);
+          setLoading(false);
+        } else if (result.redirectTo) {
+          router.push(result.redirectTo);
+          router.refresh();
+          onClose();
+        }
       }
     } catch (err) {
-      setError('인증 과정에서 오류가 발생했습니다.');
-    } finally {
+      setError('인증 과정에서 예기치 못한 오류가 발생했습니다.');
       setLoading(false);
     }
   };
 
   const handleSocialLogin = async (provider) => {
     setLoading(true);
+    setError(null);
     try {
-      await signInWithSocial(provider);
+      const result = await signInWithSocial(provider);
+      if (result?.error) {
+        setError(result.error);
+        setLoading(false);
+      } else if (result?.success && result.url) {
+        window.location.href = result.url;
+      }
     } catch (err) {
-      setError(err.message);
+      setError('소셜 로그인 처리 중 오류가 발생했습니다.');
       setLoading(false);
     }
   };
@@ -103,6 +121,7 @@ export default function LoginModal({ isOpen, onClose }) {
               </div>
               
               {error && <p className="text-red-500 text-xs mt-2 px-2">{error}</p>}
+              {message && <p className="text-green-600 text-xs mt-2 px-2 font-medium">{message}</p>}
 
               <button 
                 type="submit" 

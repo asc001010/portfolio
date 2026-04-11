@@ -1,7 +1,6 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/mygo/supabase/server'
 
 export async function login(formData) {
@@ -16,11 +15,11 @@ export async function login(formData) {
   })
 
   if (error) {
-    return redirect(`/mygo?error=${encodeURIComponent(error.message)}`)
+    return { error: error.message }
   }
 
   revalidatePath('/mygo', 'layout')
-  redirect('/mygo/profile')
+  return { success: true, redirectTo: '/mygo/profile' }
 }
 
 export async function signup(formData) {
@@ -35,11 +34,11 @@ export async function signup(formData) {
   })
 
   if (error) {
-    return redirect(`/mygo?error=${encodeURIComponent(error.message)}`)
+    return { error: error.message }
   }
 
   revalidatePath('/mygo', 'layout')
-  redirect('/mygo/profile')
+  return { success: true, redirectTo: '/mygo/profile', message: '이메일 확인을 위해 메일함을 확인해 주세요.' }
 }
 
 export async function logout() {
@@ -47,7 +46,7 @@ export async function logout() {
   await supabase.auth.signOut()
   
   revalidatePath('/mygo', 'layout')
-  redirect('/mygo')
+  return { success: true, redirectTo: '/mygo' }
 }
 
 export async function signInWithSocial(provider) {
@@ -61,11 +60,8 @@ export async function signInWithSocial(provider) {
   })
 
   if (error) {
-    console.error('Social login error:', error)
-    return
+    return { error: error.message }
   }
 
-  if (data.url) {
-    redirect(data.url)
-  }
+  return { success: true, url: data.url }
 }
