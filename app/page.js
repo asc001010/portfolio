@@ -4,10 +4,10 @@ import Link from "next/link";
 export default function Home() {
   const projects = [
     {
-      title: "bbb",
+      title: "Pristine Editorial",
       category: "Fullstack Application",
-      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCVwpZ3nciS4B8f1Z-evjSBpcgUmH7s5d73u11XnyKB2S0sVf3lbbyEQPTtumMkkCzK4PIpPpmCx1Cpw7qHLl6DrOVNbfsZMBxIy8Vmpy9zYdwrAMu49V1HnQwkWExF2L4A8Dlqml6lWewU6TDzwVkNoaUFJMuD2p0nIl3oAaam5h_KUwfmc5zHRHEAwVM25qQ1gm8cL2l_jQvcsQzk4zCK82UMaABBSabIRqf4T1H65k5wJhEkyBEuKfDJUk6KK9t-Y8lbV5_QdVc",
-      alt: "bbb 프로젝트 인터페이스",
+      img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDts90TCHREDVXCxbJDzXFGawzP3rD8zmSmk9tgXmxNtbwECEYBURgNgbvzaESdwKrJnz6VtqMBDz7uwg0jSG2RJYvjizNJgwxhiV-HfGuFgESZ19guYIvEzXhDM3vsBIha8L-6mSqZbnJ2V3c4TEVZsR-kZbQNcxKIVFRlZdfBKzCB3lYAbuEqQYelh9u_NOMFudLwUtzqPlCoftpVV6BZu6TTGXXcgXkD0LNIaX-s6lQ3rfm2XEGGC32u6AWAArt3rxJA35tUQQ5T",
+      alt: "Pristine Editorial 프로젝트 인터페이스",
       url: "/bbb",
     },
     {
