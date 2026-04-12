@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { MapPin, Info, ArrowRight, Lock, ImageIcon, FileSignature, CheckCircle2 } from 'lucide-react';
 import BranchDetailModal from './BranchDetailModal';
+import RealtimeLockerList from './RealtimeLockerList';
 
 const branches = [
   {
@@ -82,6 +83,7 @@ const branches = [
 export default function BranchPricing() {
   const [activeBranchId, setActiveBranchId] = useState(branches[0].id);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLockerListOpen, setIsLockerListOpen] = useState(false);
   const activeBranch = branches.find(b => b.id === activeBranchId);
 
   return (
@@ -129,7 +131,7 @@ export default function BranchPricing() {
               >
                 지점 정보
               </button>
-              <button onClick={() => alert(`${activeBranch.name} 예약 페이지로 이동합니다.`)} className="btn-primary h-12 flex items-center gap-2 text-sm">
+              <button onClick={() => setIsLockerListOpen(true)} className="btn-primary h-12 flex items-center gap-2 text-sm">
                 지금 바로 예약 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -177,7 +179,7 @@ export default function BranchPricing() {
               </ul>
 
               <button 
-                onClick={() => alert(`${activeBranch.name} ${locker.size} 예약`)}
+                onClick={() => setIsLockerListOpen(true)}
                 className={`w-full py-4 rounded-2xl font-black text-sm transition-all ${
                   locker.best
                     ? 'bg-brand-blue text-white hover:opacity-90'
@@ -210,6 +212,11 @@ export default function BranchPricing() {
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
         branch={activeBranch} 
+      />
+      <RealtimeLockerList 
+        isOpen={isLockerListOpen}
+        onClose={() => setIsLockerListOpen(false)}
+        branchName={activeBranch.name}
       />
     </section>
   );
