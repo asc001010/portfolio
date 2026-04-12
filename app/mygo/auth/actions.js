@@ -19,7 +19,7 @@ export async function login(formData) {
   }
 
   revalidatePath('/mygo', 'layout')
-  return { success: true, redirectTo: '/mygo/profile' }
+  return { success: true, redirectTo: '/mygo' }
 }
 
 export async function signup(formData) {
@@ -38,7 +38,7 @@ export async function signup(formData) {
   }
 
   revalidatePath('/mygo', 'layout')
-  return { success: true, redirectTo: '/mygo/profile', message: '이메일 확인을 위해 메일함을 확인해 주세요.' }
+  return { success: true, redirectTo: '/mygo', message: '이메일 확인을 위해 메일함을 확인해 주세요.' }
 }
 
 export async function logout() {

@@ -5,7 +5,7 @@ export async function GET(request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
   // if "next" is in search params, use it as the redirection URL
-  const next = searchParams.get('next') ?? '/mygo/profile'
+  const next = searchParams.get('next') ?? '/mygo'
 
   if (code) {
     const supabase = await createClient()
