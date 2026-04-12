@@ -8,14 +8,20 @@ import { createClient } from '@/lib/supabase/client';
 export default function RealtimeLockerList({ isOpen, onClose, branchName }) {
   const [user, setUser] = useState(null);
   const supabase = createClient();
-  // Check auth state
+
+  // Listen for auth state changes
   useEffect(() => {
-    const checkUser = async () => {
-      const { data: { user: currentUser } } = await supabase.auth.getUser();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Initial check
+    supabase.auth.getUser().then(({ data: { user: currentUser } }) => {
       setUser(currentUser);
-    };
-    checkUser();
-  }, [supabase]);
+    });
+
+    return () => subscription?.unsubscribe();
+  }, []);
 
   // Lock body scroll when modal is open
   useEffect(() => {
