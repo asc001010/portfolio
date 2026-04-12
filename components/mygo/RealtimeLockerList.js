@@ -1,27 +1,31 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { X, CheckCircle2, MoreHorizontal } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 export default function RealtimeLockerList({ isOpen, onClose, branchName }) {
   const [user, setUser] = useState(null);
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
   // Listen for auth state changes
   useEffect(() => {
+    // Check current session immediately
+    const checkInitialAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      if (session?.user) console.log("Login detected in Modal:", session.user.email);
+    };
+    
+    checkInitialAuth();
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
 
-    // Initial check
-    supabase.auth.getUser().then(({ data: { user: currentUser } }) => {
-      setUser(currentUser);
-    });
-
     return () => subscription?.unsubscribe();
-  }, []);
+  }, [supabase]);
 
   // Lock body scroll when modal is open
   useEffect(() => {
