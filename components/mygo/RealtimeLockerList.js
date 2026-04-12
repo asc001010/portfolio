@@ -1,10 +1,22 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { X, CheckCircle2, MoreHorizontal } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
 
 export default function RealtimeLockerList({ isOpen, onClose, branchName }) {
+  const [user, setUser] = useState(null);
+  const supabase = createClient();
+  // Check auth state
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      setUser(currentUser);
+    };
+    checkUser();
+  }, [supabase]);
+
   // Lock body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
@@ -115,7 +127,9 @@ export default function RealtimeLockerList({ isOpen, onClose, branchName }) {
                 </div>
                 <p className="mt-6 text-[10px] text-zinc-500 text-center leading-relaxed font-medium">
                   결제는 다음 단계에서 진행됩니다.<br />
-                  <span className="underline cursor-pointer">로그인이 필요한 서비스입니다.</span>
+                  {!user && (
+                    <span className="underline cursor-pointer">로그인이 필요한 서비스입니다.</span>
+                  )}
                 </p>
               </div>
 
