@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { MapPin, Info, ArrowRight, Lock, ImageIcon, FileSignature, CheckCircle2 } from 'lucide-react';
+import { MapPin, Info, ArrowRight, Lock, ImageIcon, FileSignature, CheckCircle2, Package } from 'lucide-react';
 import BranchDetailModal from './BranchDetailModal';
 import RealtimeLockerList from './RealtimeLockerList';
 
