@@ -16,12 +16,10 @@ export const metadata = {
   description: "언제 어디서든 당신의 소중한 짐을 안전하게 보관하세요. 내꼬 교대점 실시간 현황 및 이용 안내.",
 };
 
-export default function RootLayout({ children }) {
+export default function NaekkoLayout({ children }) {
   return (
-    <html lang="ko" suppressHydrationWarning>
-      <body className={`${inter.variable} ${outfit.variable} antialiased font-sans`} suppressHydrationWarning>
-        {children}
-      </body>
-    </html>
+    <div className={`${inter.variable} ${outfit.variable} antialiased font-sans`}>
+      {children}
+    </div>
   );
 }
