@@ -112,8 +112,8 @@ export default function BranchPricing() {
         </div>
 
         {/* Info Header */}
-        <div className="bg-white rounded-[2.5rem] p-8 md:p-12 mb-12 shadow-sm border border-zinc-100">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="bg-white rounded-[2.5rem] p-8 lg:p-12 mb-12 shadow-sm border border-zinc-100">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <h3 className="text-2xl font-bold text-[#1D1D1F]">{activeBranch.name}</h3>
@@ -131,22 +131,23 @@ export default function BranchPricing() {
               >
                 지점 정보
               </button>
-              <button onClick={() => setIsLockerListOpen(true)} className="btn-primary h-12 flex items-center gap-2 text-sm">
-                지금 바로 예약 <ArrowRight className="w-4 h-4" />
+              <button onClick={() => setIsLockerListOpen(true)} className="btn-primary h-12 flex items-center gap-2 text-sm shadow-lg shadow-blue-500/10">
+                <Package className="w-4 h-4" />
+                지금 바로 예약하기
               </button>
             </div>
           </div>
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-center">
           {activeBranch.lockers.filter(l => l.id).map((locker, lockerIdx) => (
             <div 
-              key={`locker-card-v3-${activeBranch.id}-${locker.id}-${lockerIdx}`}
+              key={`locker-card-v3-${activeBranch.id}-${locker.id}`}
               className={`relative p-8 rounded-[2.5rem] flex flex-col transition-all h-full ${
                 locker.best 
-                  ? 'bg-[#1D1D1F] text-white shadow-2xl scale-105 z-10' 
-                  : 'bg-white text-[#1D1D1F] border border-zinc-100 shadow-sm hover:shadow-xl hover:translate-y-[-4px]'
+                  ? 'bg-[#1D1D1F] text-white shadow-xl scale-105 z-10' 
+                  : 'bg-white text-[#1D1D1F] border border-zinc-100 shadow-sm hover:shadow-lg hover:translate-y-[-4px]'
               }`}
             >
               {locker.best && (

@@ -102,24 +102,24 @@ export default function UsageTimer() {
     <motion.div
       initial={{ opacity: 0, scale: 0.95, y: -10 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
-      className="flex items-center gap-2 md:gap-3 bg-blue-50 border border-blue-100 px-3 md:px-4 py-1.5 md:py-2 rounded-xl md:rounded-2xl shadow-sm"
+      className="flex items-center gap-2 lg:gap-3 bg-blue-50 border border-blue-100 px-3 lg:px-4 py-1.5 lg:py-2 rounded-xl lg:rounded-2xl shadow-sm"
     >
-      <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8 bg-blue-500 rounded-full">
-        <Clock className="w-3 md:w-4 h-3 md:h-4 text-white animate-pulse" />
+      <div className="flex items-center justify-center w-6 h-6 lg:w-8 lg:h-8 bg-blue-500 rounded-full">
+        <Clock className="w-3 lg:w-4 h-3 lg:h-4 text-white animate-pulse" />
       </div>
       <div className="flex flex-col">
-        <span className="text-[8px] md:text-[10px] text-blue-600 font-bold uppercase tracking-wider leading-none mb-0.5 md:mb-1">
+        <span className="text-[8px] lg:text-[10px] text-blue-600 font-bold uppercase tracking-wider leading-none mb-0.5 lg:mb-1">
           실시간 이용 중
         </span>
-        <span className="text-[12px] md:text-sm font-black text-blue-900 tabular-nums leading-none">
+        <span className="text-[12px] lg:text-sm font-black text-blue-900 tabular-nums leading-none">
           {elapsedTime}
         </span>
       </div>
       <Link 
         href="/naekko/profile"
-        className="ml-1 md:ml-2 p-1 md:p-1.5 hover:bg-blue-100 rounded-lg transition-colors group"
+        className="ml-1 lg:ml-2 p-1 lg:p-1.5 hover:bg-blue-100 rounded-lg transition-colors group"
       >
-        <ExternalLink className="w-3 md:w-3.5 h-3 md:h-3.5 text-blue-400 group-hover:text-blue-600" />
+        <ExternalLink className="w-3 lg:w-3.5 h-3 lg:h-3.5 text-blue-400 group-hover:text-blue-600" />
       </Link>
       <button
         onClick={async (e) => {
@@ -132,7 +132,7 @@ export default function UsageTimer() {
             }
           }
         }}
-        className="ml-1 md:ml-2 bg-red-500 hover:bg-red-600 text-white text-[10px] md:text-[11px] font-bold px-2 py-1 rounded-lg transition-colors"
+        className="ml-1 lg:ml-2 bg-red-500 hover:bg-red-600 text-white text-[10px] lg:text-[11px] font-bold px-2 py-1 rounded-lg transition-colors"
       >
         종료
       </button>

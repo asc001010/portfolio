@@ -72,7 +72,7 @@ export default function LoginModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] overflow-y-auto bg-black/60 backdrop-blur-sm p-4 py-8 animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-[150] overflow-y-auto bg-black/60 p-4 py-8 animate-in fade-in duration-200">
       <div className="flex min-h-full items-center justify-center">
         <div 
           className="bg-white rounded-[2rem] w-full max-w-md shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
