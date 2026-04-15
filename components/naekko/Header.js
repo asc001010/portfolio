@@ -125,13 +125,13 @@ export default function Header() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="fixed inset-0 top-16 bg-black/5 z-40 md:hidden"
+                className="fixed inset-0 top-16 bg-black/5 z-40 lg:hidden"
               />
               <motion.div 
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="absolute top-full left-0 w-full bg-white border-b border-zinc-100 py-4 px-6 space-y-4 shadow-xl z-50 md:hidden"
+                className="absolute top-full left-0 w-full bg-white border-b border-zinc-100 py-4 px-6 space-y-4 shadow-xl z-50 lg:hidden"
               >
                 <Link href="/naekko/membership" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-black text-blue-600 py-2">멤버십 구독 안내</Link>
                 <Link href="/naekko/#branch" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium py-2">지점 및 요금 안내</Link>
