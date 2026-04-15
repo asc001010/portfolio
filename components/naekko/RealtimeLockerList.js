@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Package, ChevronLeft, ArrowRight, Calendar, CreditCard, Info, MapPin, CheckCircle2 } from 'lucide-react';
-import { createClient } from '@/lib/naekko/supabase/client';
+import { X, Package, ChevronLeft, ArrowRight, Calendar, CreditCard, Info, MapPin, CheckCircle2, ChevronDown } from 'lucide-react';
+import { createClient } from '@/lib/supabase/client';
+import CustomCalendar from './CustomCalendar';
 
 const supabase = createClient();
 
@@ -15,10 +16,12 @@ export default function RealtimeLockerList({ isOpen, onClose }) {
   const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState(() => {
     const d = new Date();
-    d.setMonth(d.getMonth() + 1);
+    d.setDate(d.getDate() + 30);
     return d.toISOString().split('T')[0];
   });
   const [useSubscription, setUseSubscription] = useState(false);
+  const [showStartCalendar, setShowStartCalendar] = useState(false);
+  const [showEndCalendar, setShowEndCalendar] = useState(false);
 
   // Auth Status Sync
   useEffect(() => {
@@ -225,23 +228,62 @@ export default function RealtimeLockerList({ isOpen, onClose }) {
                   exit={{ opacity: 0, y: -20 }}
                   className="p-8 max-w-2xl mx-auto space-y-6"
                 >
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-4 relative">
                     <InputGroup label="보관 시작일" icon={<Calendar className="w-4 h-4" />}>
-                      <input 
-                        type="date"
-                        value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
-                        className="w-full bg-white p-4 pl-12 rounded-2xl font-bold text-sm border border-zinc-100 outline-none focus:border-blue-500 transition-all"
-                      />
+                      <button 
+                        onClick={() => { setShowStartCalendar(!showStartCalendar); setShowEndCalendar(false); }}
+                        className={`w-full bg-white p-4 pl-12 rounded-2xl border transition-all flex items-center justify-between group ${showStartCalendar ? 'border-blue-500 ring-2 ring-blue-50' : 'border-zinc-100 hover:border-zinc-300'}`}
+                      >
+                        <span className="text-sm font-bold text-[#1D1D1F]">{startDate}</span>
+                        <ChevronDown className={`w-4 h-4 text-zinc-300 transition-transform ${showStartCalendar ? 'rotate-180 text-blue-500' : ''}`} />
+                      </button>
+                      
+                      <AnimatePresence>
+                        {showStartCalendar && (
+                          <div className="absolute top-full left-0 z-50 mt-2">
+                            <CustomCalendar 
+                              label="시작일"
+                              selectedDate={startDate}
+                              onSelect={(date) => {
+                                setStartDate(date);
+                                setShowStartCalendar(false);
+                                if (new Date(date) >= new Date(endDate)) {
+                                  const d = new Date(date);
+                                  d.setDate(d.getDate() + 30);
+                                  setEndDate(d.toISOString().split('T')[0]);
+                                }
+                              }}
+                              minDate={new Date().toISOString().split('T')[0]}
+                            />
+                          </div>
+                        )}
+                      </AnimatePresence>
                     </InputGroup>
+
                     <InputGroup label="보관 종료일" icon={<Calendar className="w-4 h-4" />}>
-                       <input 
-                        type="date"
-                        value={endDate}
-                        min={startDate}
-                        onChange={(e) => setEndDate(e.target.value)}
-                        className="w-full bg-white p-4 pl-12 rounded-2xl font-bold text-sm border border-zinc-100 outline-none focus:border-blue-500 transition-all"
-                      />
+                       <button 
+                        onClick={() => { setShowEndCalendar(!showEndCalendar); setShowStartCalendar(false); }}
+                        className={`w-full bg-white p-4 pl-12 rounded-2xl border transition-all flex items-center justify-between group ${showEndCalendar ? 'border-blue-500 ring-2 ring-blue-50' : 'border-zinc-100 hover:border-zinc-300'}`}
+                      >
+                        <span className="text-sm font-bold text-[#1D1D1F]">{endDate}</span>
+                        <ChevronDown className={`w-4 h-4 text-zinc-300 transition-transform ${showEndCalendar ? 'rotate-180 text-blue-500' : ''}`} />
+                      </button>
+
+                      <AnimatePresence>
+                        {showEndCalendar && (
+                          <div className="absolute top-full right-0 z-50 mt-2">
+                            <CustomCalendar 
+                              label="종료일"
+                              selectedDate={endDate}
+                              onSelect={(date) => {
+                                setEndDate(date);
+                                setShowEndCalendar(false);
+                              }}
+                              minDate={startDate}
+                            />
+                          </div>
+                        )}
+                      </AnimatePresence>
                     </InputGroup>
                   </div>
 
