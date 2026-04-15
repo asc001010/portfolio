@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { X, Lock, Mail, MessageCircle, Link, Key } from 'lucide-react';
-import { login, signup, signInWithSocial } from '@/app/auth/actions';
+import { login, signup, signInWithSocial } from '@/app/naekko/auth/actions';
 import { useRouter } from 'next/navigation';
 
 export default function LoginModal({ isOpen, onClose }) {

@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/naekko/supabase/server'
-import { logout } from '@/app/auth/actions'
+import { logout } from '@/app/naekko/auth/actions'
 import { User, Package, Bell, Settings, LogOut, ChevronRight, Clock, CreditCard, Zap, Crown } from 'lucide-react'
 import Link from 'next/link'
 import Header from '@/components/naekko/Header'
