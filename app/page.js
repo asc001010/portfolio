@@ -11,11 +11,11 @@ export default function Home() {
       url: "/bbb",
     },
     {
-      title: "mygo",
-      category: "Web Service",
-      img: "/projects/mygo.png",
-      alt: "mygo 프로젝트 인터페이스",
-      url: "/mygo",
+      title: "naekko",
+      category: "Premium Storage Service",
+      img: "/projects/naekko.png",
+      alt: "naekko 프로젝트 인터페이스",
+      url: "/naekko",
     },
     {
       title: "secondproject",

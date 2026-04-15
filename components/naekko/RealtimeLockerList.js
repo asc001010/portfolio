@@ -98,14 +98,22 @@ export default function RealtimeLockerList({ isOpen, onClose }) {
   const finalAmount = useSubscription ? 0 : Math.floor(discountedAmount);
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/40 backdrop-blur-sm overflow-hidden">
+    <div className="fixed inset-0 z-[120] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.div
           initial={{ opacity: 0, y: "100%" }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: "100%" }}
-          transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          className="relative bg-white w-full max-w-4xl sm:rounded-[2.5rem] rounded-t-[2.5rem] shadow-2xl overflow-hidden h-[92vh] sm:h-auto sm:min-h-[650px] sm:max-h-[90vh] flex flex-col"
+          transition={{ 
+            type: "spring", 
+            damping: 32, 
+            stiffness: 300,
+            mass: 0.8,
+            velocity: 2,
+            restDelta: 0.5
+          }}
+          style={{ willChange: "transform, opacity" }}
+          className="relative bg-white w-full max-w-4xl sm:rounded-[2.5rem] rounded-t-[2.5rem] shadow-[0_-20px_80px_-20px_rgba(0,0,0,0.3)] overflow-hidden h-[92vh] sm:h-auto sm:min-h-[650px] sm:max-h-[90vh] flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Modal Header */}

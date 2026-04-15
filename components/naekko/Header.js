@@ -68,38 +68,38 @@ export default function Header() {
                 <img src="/logo.webp" alt="내꼬 로고" className="w-full h-full object-cover" />
               </div>
             </Link>
-            <nav className="hidden md:flex items-center gap-4 lg:gap-6">
-              <Link href="/naekko/membership" className="text-[13px] font-black text-blue-600 hover:text-blue-700 transition-colors uppercase tracking-widest bg-blue-50 px-3 py-1.5 rounded-full whitespace-nowrap">멤버십 구독</Link>
-              <Link href="/naekko/#branch" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors whitespace-nowrap">지점 및 요금 안내</Link>
-              <Link href="/naekko/#box-guide" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors whitespace-nowrap">박스 크기 안내</Link>
-              <Link href="/naekko/reviews" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors whitespace-nowrap">이용 후기</Link>
-              <Link href="/naekko/faq" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors whitespace-nowrap">자주 묻는 질문</Link>
+            <nav className="hidden lg:flex items-center gap-5 xl:gap-8">
+              <Link href="/naekko/membership" className="text-[13px] font-black text-blue-600 hover:text-blue-700 transition-all bg-[#EEF6FF] px-4 py-2 rounded-full whitespace-nowrap">멤버십 구독</Link>
+              <Link href="/naekko/#branch" className="text-[15px] font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors whitespace-nowrap">지점 및 요금 안내</Link>
+              <Link href="/naekko/#box-guide" className="text-[15px] font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors whitespace-nowrap">박스 크기 안내</Link>
+              <Link href="/naekko/reviews" className="text-[15px] font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors whitespace-nowrap">이용 후기</Link>
+              <Link href="/naekko/faq" className="text-[15px] font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors whitespace-nowrap">자주 묻는 질문</Link>
             </nav>
           </div>
             {/* Desktop Buttons */}
-            <div className="hidden md:flex items-center gap-2 lg:gap-4 ml-auto">
+            <div className="hidden lg:flex items-center gap-3 ml-auto">
               {user ? (
                 <>
                   <UsageTimer />
                   <button 
                     onClick={() => setIsBookingOpen(true)}
-                    className="btn-primary text-sm flex items-center gap-2 whitespace-nowrap"
+                    className="bg-brand-blue text-white px-6 py-3 rounded-full text-[15px] font-bold hover:bg-blue-600 transition-all flex items-center gap-2 whitespace-nowrap shadow-lg shadow-blue-500/20 active:scale-95"
                   >
-                    <Package className="w-4 h-4" />
+                    <Package className="w-5 h-5" />
                     예약하기
                   </button>
                   <Link 
                     href="/naekko/profile"
-                    className="bg-zinc-100 text-zinc-600 px-4 py-2.5 rounded-full text-sm font-bold hover:bg-zinc-200 transition-colors flex items-center gap-2 whitespace-nowrap"
+                    className="bg-[#F2F2F7] text-[#1D1D1F] px-6 py-3 rounded-full text-[15px] font-bold hover:bg-zinc-200 transition-all flex items-center gap-2 whitespace-nowrap active:scale-95"
                   >
-                    <User className="w-4 h-4" />
+                    <User className="w-5 h-5" />
                     마이페이지
                   </Link>
                 </>
               ) : (
                 <button 
                   onClick={() => setIsLoginModalOpen(true)}
-                  className="btn-primary text-sm"
+                  className="bg-brand-blue text-white px-7 py-3 rounded-full text-[15px] font-bold hover:bg-blue-600 transition-all active:scale-95 shadow-lg shadow-blue-500/20"
                 >
                   내꼬 시작하기
                 </button>
@@ -109,9 +109,9 @@ export default function Header() {
             {/* Mobile Hamburger Menu Icon */}
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 md:hidden hover:bg-zinc-100 rounded-lg transition-colors"
+              className="p-3 lg:hidden hover:bg-zinc-100 rounded-xl transition-colors"
             >
-              <Menu className="w-6 h-6 text-[#1D1D1F]" />
+              <Menu className="w-7 h-7 text-[#1D1D1F]" />
             </button>
           </div>
 
