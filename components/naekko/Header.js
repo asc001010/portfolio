@@ -68,29 +68,29 @@ export default function Header() {
                 <img src="/logo.webp" alt="내꼬 로고" className="w-full h-full object-cover" />
               </div>
             </Link>
-            <nav className="hidden md:flex items-center gap-6">
-              <Link href="/naekko/membership" className="text-[13px] font-black text-blue-600 hover:text-blue-700 transition-colors uppercase tracking-widest bg-blue-50 px-3 py-1.5 rounded-full">멤버십 구독</Link>
-              <Link href="/naekko/#branch" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors">지점 및 요금 안내</Link>
-              <Link href="/naekko/#box-guide" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors">박스 크기 안내</Link>
-              <Link href="/naekko/reviews" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors">이용 후기</Link>
-              <Link href="/naekko/faq" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors">자주 묻는 질문</Link>
+            <nav className="hidden md:flex items-center gap-4 lg:gap-6">
+              <Link href="/naekko/membership" className="text-[13px] font-black text-blue-600 hover:text-blue-700 transition-colors uppercase tracking-widest bg-blue-50 px-3 py-1.5 rounded-full whitespace-nowrap">멤버십 구독</Link>
+              <Link href="/naekko/#branch" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors whitespace-nowrap">지점 및 요금 안내</Link>
+              <Link href="/naekko/#box-guide" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors whitespace-nowrap">박스 크기 안내</Link>
+              <Link href="/naekko/reviews" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors whitespace-nowrap">이용 후기</Link>
+              <Link href="/naekko/faq" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors whitespace-nowrap">자주 묻는 질문</Link>
             </nav>
           </div>
             {/* Desktop Buttons */}
-            <div className="hidden md:flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-2 lg:gap-4 ml-auto">
               {user ? (
                 <>
                   <UsageTimer />
                   <button 
                     onClick={() => setIsBookingOpen(true)}
-                    className="btn-primary text-sm flex items-center gap-2"
+                    className="btn-primary text-sm flex items-center gap-2 whitespace-nowrap"
                   >
                     <Package className="w-4 h-4" />
                     예약하기
                   </button>
                   <Link 
                     href="/naekko/profile"
-                    className="bg-zinc-100 text-zinc-600 px-4 py-2.5 rounded-full text-sm font-bold hover:bg-zinc-200 transition-colors flex items-center gap-2"
+                    className="bg-zinc-100 text-zinc-600 px-4 py-2.5 rounded-full text-sm font-bold hover:bg-zinc-200 transition-colors flex items-center gap-2 whitespace-nowrap"
                   >
                     <User className="w-4 h-4" />
                     마이페이지
