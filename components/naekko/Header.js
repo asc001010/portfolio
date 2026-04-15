@@ -21,7 +21,7 @@ export default function Header() {
 
   const handleLogoClick = (e) => {
     setIsMobileMenuOpen(false);
-    if (pathname === '/') {
+    if (pathname === '/naekko') {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -70,8 +70,8 @@ export default function Header() {
             </Link>
             <nav className="hidden md:flex items-center gap-6">
               <Link href="/naekko/membership" className="text-[13px] font-black text-blue-600 hover:text-blue-700 transition-colors uppercase tracking-widest bg-blue-50 px-3 py-1.5 rounded-full">멤버십 구독</Link>
-              <Link href="/#branch" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors">지점 및 요금 안내</Link>
-              <Link href="/#box-guide" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors">박스 크기 안내</Link>
+              <Link href="/naekko/#branch" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors">지점 및 요금 안내</Link>
+              <Link href="/naekko/#box-guide" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors">박스 크기 안내</Link>
               <Link href="/naekko/reviews" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors">이용 후기</Link>
               <Link href="/naekko/faq" className="text-sm font-medium text-[#1D1D1F] hover:text-brand-blue transition-colors">자주 묻는 질문</Link>
             </nav>
@@ -134,8 +134,8 @@ export default function Header() {
                 className="absolute top-full left-0 w-full bg-white border-b border-zinc-100 py-4 px-6 space-y-4 shadow-xl z-50 md:hidden"
               >
                 <Link href="/naekko/membership" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-black text-blue-600 py-2">멤버십 구독 안내</Link>
-                <Link href="/#branch" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium py-2">지점 및 요금 안내</Link>
-                <Link href="/#box-guide" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium py-2">박스 크기 안내</Link>
+                <Link href="/naekko/#branch" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium py-2">지점 및 요금 안내</Link>
+                <Link href="/naekko/#box-guide" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium py-2">박스 크기 안내</Link>
                 <Link href="/naekko/reviews" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium py-2">이용 후기</Link>
                 <Link href="/naekko/faq" onClick={() => setIsMobileMenuOpen(false)} className="block text-sm font-medium py-2">자주 묻는 질문</Link>
                 <div className="pt-4 flex flex-col gap-2">

@@ -240,7 +240,7 @@ export default function MembershipPage() {
                   </ul>
 
                   {/* CTA 버튼 */}
-                  <Link href="/#branch">
+                  <Link href="/naekko/#branch">
                     <button className={`w-full py-4 rounded-xl font-black text-sm transition-all flex items-center justify-center gap-2 group ${
                       plan.popular
                         ? 'bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/30'
@@ -281,7 +281,7 @@ export default function MembershipPage() {
                   가입 즉시 이용 가능. 약정 없이 매월 자동 갱신.<br />
                   지금 바로 내꼬에서 내 보관함을 찾아보세요.
                 </p>
-                <Link href="/#branch">
+                <Link href="/naekko/#branch">
                   <button className="bg-blue-500 hover:bg-blue-600 text-white px-10 py-4 rounded-2xl font-black text-base transition-all hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5 flex items-center gap-2 mx-auto">
                     <Package className="w-5 h-5" />
                     지점 및 보관함 찾기

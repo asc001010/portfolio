@@ -19,7 +19,7 @@ export async function login(formData) {
   }
 
   revalidatePath('/', 'layout')
-  return { success: true, redirectTo: '/' }
+  return { success: true, redirectTo: '/naekko' }
 }
 
 export async function signup(formData) {
@@ -38,7 +38,7 @@ export async function signup(formData) {
   }
 
   revalidatePath('/', 'layout')
-  return { success: true, redirectTo: '/', message: '이메일 확인을 위해 메일함을 확인해 주세요.' }
+  return { success: true, redirectTo: '/naekko', message: '이메일 확인을 위해 메일함을 확인해 주세요.' }
 }
 
 export async function logout() {
@@ -46,7 +46,7 @@ export async function logout() {
   await supabase.auth.signOut()
   
   revalidatePath('/', 'layout')
-  return { success: true, redirectTo: '/' }
+  return { success: true, redirectTo: '/naekko' }
 }
 
 export async function signInWithSocial(provider) {
@@ -55,7 +55,7 @@ export async function signInWithSocial(provider) {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provider,
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/auth/callback`,
+      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/naekko/auth/callback`,
     },
   })
 
