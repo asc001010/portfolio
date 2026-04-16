@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from 'react';
-import { MapPin, Info, ArrowRight, Lock, ImageIcon, FileSignature, CheckCircle2, Package } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MapPin, Info, ArrowRight, Lock, ImageIcon, FileSignature, CheckCircle2, Star } from 'lucide-react';
 import BranchDetailModal from './BranchDetailModal';
 import RealtimeLockerList from './RealtimeLockerList';
 
-const branches = [
+const BRANCHES_DATA = [
   {
     id: 'branch-kyodae-001',
     name: '교대점',
+    shortName: '교대',
     address: '서울시 서초구 서초중앙로 63 지하1층 B103호',
     lockers: [
       { 
@@ -45,6 +47,7 @@ const branches = [
   {
     id: 'branch-samsung-002',
     name: '삼성중앙점',
+    shortName: '삼성중앙',
     address: '서울특별시 강남구 삼성동 123-45',
     lockers: [
       { 
@@ -81,148 +84,190 @@ const branches = [
 ];
 
 export default function BranchPricing() {
-  const [activeBranchId, setActiveBranchId] = useState(branches[0].id);
+  const [activeBranchId, setActiveBranchId] = useState(BRANCHES_DATA[0].id);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLockerListOpen, setIsLockerListOpen] = useState(false);
-  const activeBranch = branches.find(b => b.id === activeBranchId);
+
+  const activeBranch = useMemo(() => 
+    BRANCHES_DATA.find(b => b.id === activeBranchId) || BRANCHES_DATA[0]
+  , [activeBranchId]);
 
   return (
-    <section id="branch" className="py-24 bg-surface-low">
+    <section id="branch" className="py-24 bg-[#F9F9FB]">
       <div className="container mx-auto px-6 max-w-6xl">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight mb-4">지점 및 요금 안내</h2>
-          <p className="text-zinc-500">원하시는 지점을 선택하여 상세 정보와 요금을 확인하세요.</p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-3xl md:text-4xl font-black tracking-tight mb-4 text-[#1D1D1F]">지점 및 요금 안내</h2>
+            <p className="text-zinc-500 font-medium">원하시는 지점을 선택하여 상세 정보와 요금을 확인하세요.</p>
+          </motion.div>
         </div>
 
         {/* Branch Selector Tabs */}
-        <div className="flex bg-white p-2 rounded-2xl shadow-sm border border-black/5 mx-auto max-w-md mb-12">
-          {branches.filter(b => b.id).map((branch, branchIdx) => (
+        <div className="flex bg-white p-1.5 rounded-2xl shadow-sm border border-zinc-100 mx-auto max-w-sm mb-12">
+          {BRANCHES_DATA.map((branch) => (
             <button
-              key={`branch-tab-v3-${branch.id}-${branchIdx}`}
+              key={branch.id}
               onClick={() => setActiveBranchId(branch.id)}
-              className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all ${
+              className={`flex-1 py-3 text-sm font-bold rounded-xl transition-all duration-300 relative ${
                 activeBranchId === branch.id 
-                  ? 'bg-[#1D1D1F] text-white shadow-md' 
-                  : 'text-zinc-500 hover:bg-zinc-50'
+                  ? 'text-white' 
+                  : 'text-zinc-400 hover:text-zinc-600'
               }`}
             >
-              {branch.name}
+              {activeBranchId === branch.id && (
+                <motion.div 
+                  layoutId="branch-tab"
+                  className="absolute inset-0 bg-[#1D1D1F] rounded-xl shadow-lg"
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+              <span className="relative z-10">{branch.shortName || branch.name}</span>
             </button>
           ))}
         </div>
 
         {/* Info Header */}
-        <div className="bg-white rounded-[2.5rem] p-8 lg:p-12 mb-12 shadow-sm border border-zinc-100">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <h3 className="text-2xl font-bold text-[#1D1D1F]">{activeBranch.name}</h3>
-                <span className="px-3 py-1 bg-blue-50 text-brand-blue text-[10px] font-black uppercase tracking-widest rounded-full">Active</span>
+        <motion.div 
+          key={activeBranchId}
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-white rounded-[2.5rem] p-8 md:p-10 mb-10 shadow-sm border border-zinc-100"
+        >
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <h3 className="text-2xl md:text-3xl font-black text-[#1D1D1F] tracking-tight">{activeBranch.name}</h3>
+                <div className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-full border border-blue-100">
+                  <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
+                  Operating
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-zinc-500 font-medium text-sm">
-                <MapPin className="w-4 h-4 text-brand-blue" />
+              <div className="flex items-center gap-2 text-zinc-500 font-bold text-sm">
+                <div className="w-8 h-8 rounded-lg bg-zinc-50 flex items-center justify-center">
+                  <MapPin className="w-4 h-4 text-blue-500" />
+                </div>
                 {activeBranch.address}
               </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <button 
                 onClick={() => setIsModalOpen(true)}
-                className="h-12 px-6 rounded-2xl border border-zinc-200 text-sm font-bold hover:bg-zinc-50 transition-colors"
+                className="flex-1 md:flex-none h-14 px-8 rounded-2xl border border-zinc-200 text-sm font-bold hover:bg-zinc-50 transition-all active:scale-95"
               >
-                지점 정보
+                지점 상세
               </button>
-              <button onClick={() => setIsLockerListOpen(true)} className="btn-primary h-12 flex items-center gap-2 text-sm shadow-lg shadow-blue-500/10">
-                <Package className="w-4 h-4" />
-                지금 바로 예약하기
+              <button 
+                onClick={() => setIsLockerListOpen(true)} 
+                className="flex-1 md:flex-none bg-blue-500 text-white h-14 px-8 rounded-2xl flex items-center justify-center gap-2 text-sm font-bold hover:bg-blue-600 transition-all shadow-xl shadow-blue-500/20 active:scale-95"
+              >
+                지금 바로 예약 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* Pricing Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-center">
-          {activeBranch.lockers.filter(l => l.id).map((locker, lockerIdx) => (
-            <div 
-              key={`locker-card-v3-${activeBranch.id}-${locker.id}`}
-              className={`relative p-8 rounded-[2.5rem] flex flex-col transition-all h-full ${
-                locker.best 
-                  ? 'bg-[#1D1D1F] text-white shadow-xl scale-105 z-10' 
-                  : 'bg-white text-[#1D1D1F] border border-zinc-100 shadow-sm hover:shadow-lg hover:translate-y-[-4px]'
-              }`}
-            >
-              {locker.best && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-blue text-white text-[10px] font-black px-4 py-1.5 rounded-full shadow-lg uppercase tracking-widest">
-                  BEST
-                </div>
-              )}
-              
-              <div className="mb-6">
-                <h4 className="text-2xl font-bold mb-1">{locker.size}</h4>
-                <p className={`text-xs font-medium ${locker.best ? 'text-zinc-400' : 'text-zinc-500'}`}>
-                  {locker.desc}
-                </p>
-              </div>
-
-              <div className="mb-8 mt-auto">
-                <div className="flex items-baseline gap-1">
-                  <span className="text-2xl font-black">₩{locker.price}</span>
-                  <span className={`text-xs font-bold ${locker.best ? 'text-zinc-500' : 'text-zinc-400'}`}>/ 월</span>
-                </div>
-              </div>
-
-              <ul className="space-y-3 mb-8">
-                {locker.features.filter(f => f).map((feature, featIdx) => (
-                  <li key={`locker-feat-v3-${locker.id}-${featIdx}`} className="flex items-center gap-2 text-xs font-bold">
-                    <CheckCircle2 className={`w-4 h-4 ${locker.best ? 'text-brand-blue' : 'text-brand-blue'}`} />
-                    <span className={locker.best ? 'text-zinc-300' : 'text-zinc-600'}>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <button 
-                onClick={() => setIsLockerListOpen(true)}
-                className={`w-full py-4 rounded-2xl font-black text-sm transition-all ${
-                  locker.best
-                    ? 'bg-brand-blue text-white hover:opacity-90'
-                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+          <AnimatePresence mode="wait">
+            {activeBranch.lockers.map((locker, idx) => (
+              <motion.div 
+                key={locker.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                className={`relative p-8 rounded-[2.5rem] flex flex-col transition-all group ${
+                  locker.best 
+                    ? 'bg-[#1D1D1F] text-white shadow-2xl scale-105 z-10 border border-[#2D2D2F]' 
+                    : 'bg-white text-[#1D1D1F] border border-zinc-100 shadow-sm hover:shadow-xl hover:-translate-y-1'
                 }`}
               >
-                선택하기
-              </button>
+                {locker.best && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-white text-[10px] font-black px-4 py-2 rounded-full shadow-lg uppercase tracking-widest flex items-center gap-1.5">
+                    <Star className="w-3 h-3 fill-white" />
+                    BEST CHOICE
+                  </div>
+                )}
+                
+                <div className="mb-8">
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-6 border ${locker.best ? 'bg-white/10 border-white/10 text-white' : 'bg-zinc-50 border-zinc-100 text-[#1D1D1F]'}`}>
+                    <span className="font-black text-xs">{locker.size.charAt(0)}</span>
+                  </div>
+                  <h4 className="text-2xl font-black mb-1">{locker.size}</h4>
+                  <p className={`text-xs font-bold leading-relaxed ${locker.best ? 'text-zinc-400' : 'text-zinc-500'}`}>
+                    {locker.desc}
+                  </p>
+                </div>
+
+                <div className="mb-8 mt-auto">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-3xl font-black tracking-tight">₩{locker.price}</span>
+                    <span className={`text-[10px] font-black uppercase tracking-widest ${locker.best ? 'text-zinc-500' : 'text-zinc-400'}`}>/ Month</span>
+                  </div>
+                </div>
+
+                <ul className="space-y-3.5 mb-8 border-t border-zinc-100/10 pt-6">
+                  {locker.features.map((feature, featIdx) => (
+                    <li key={featIdx} className="flex items-center gap-3 text-xs font-bold">
+                      <div className={`w-4 h-4 rounded-full flex items-center justify-center ${locker.best ? 'bg-blue-500/20 text-blue-400' : 'bg-blue-50 text-blue-500'}`}>
+                        <CheckCircle2 className="w-2.5 h-2.5" />
+                      </div>
+                      <span className={locker.best ? 'text-zinc-400 font-medium' : 'text-zinc-600 font-medium'}>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button 
+                  onClick={() => setIsLockerListOpen(true)}
+                  className={`w-full py-4 rounded-2xl font-black text-sm transition-all active:scale-95 ${
+                    locker.best
+                      ? 'bg-blue-500 text-white hover:bg-blue-600 shadow-lg shadow-blue-500/20'
+                      : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                  }`}
+                >
+                  보관하기
+                </button>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
+
+        {/* Improved Visual Placeholders */}
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="group bg-white rounded-[2.5rem] p-10 border border-zinc-100 shadow-sm flex flex-col items-center justify-center text-center hover:border-blue-100 transition-all">
+            <div className="w-20 h-20 bg-zinc-50 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <ImageIcon className="w-8 h-8 text-zinc-300 group-hover:text-blue-500 transition-colors" />
             </div>
-          ))}
-        </div>
-
-        {/* Additional Assets Space (Placeholders) */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-zinc-50/50 rounded-3xl p-8 border border-zinc-100 flex flex-col items-center justify-center text-center">
-            <ImageIcon className="w-8 h-8 text-zinc-300 mb-3" />
-            <p className="text-sm font-bold text-zinc-500">지점 내부 이미지</p>
-            <p className="text-[10px] text-zinc-400 uppercase tracking-widest mt-1">Coming Soon</p>
+            <h5 className="font-black text-[#1D1D1F] mb-1">지점 내부 실사 갤러리</h5>
+            <p className="text-xs text-zinc-400 font-medium">현장 방문 없이도 깨끗한 시설을 확인하세요.</p>
+            <div className="mt-6 px-4 py-1.5 bg-zinc-50 text-zinc-400 text-[10px] font-black rounded-full uppercase tracking-widest">Update Scheduled</div>
           </div>
-          <div className="bg-zinc-50/50 rounded-3xl p-8 border border-zinc-100 flex flex-col items-center justify-center text-center">
-            <FileSignature className="w-8 h-8 text-zinc-300 mb-3" />
-            <p className="text-sm font-bold text-zinc-500">지점 도면 가이드</p>
-            <p className="text-[10px] text-zinc-400 uppercase tracking-widest mt-1">Coming Soon</p>
+          
+          <div className="group bg-white rounded-[2.5rem] p-10 border border-zinc-100 shadow-sm flex flex-col items-center justify-center text-center hover:border-blue-100 transition-all">
+            <div className="w-20 h-20 bg-zinc-50 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <FileSignature className="w-8 h-8 text-zinc-300 group-hover:text-blue-500 transition-colors" />
+            </div>
+            <h5 className="font-black text-[#1D1D1F] mb-1">상세 도면 및 가이드</h5>
+            <p className="text-xs text-zinc-400 font-medium">라커 위치와 동선을 한눈에 파악할 수 지도.</p>
+            <div className="mt-6 px-4 py-1.5 bg-zinc-50 text-zinc-400 text-[10px] font-black rounded-full uppercase tracking-widest">Update Scheduled</div>
           </div>
         </div>
       </div>
 
-      <div id="modals-container">
-        <BranchDetailModal 
-          key="branch-detail-modal-v3"
-          isOpen={isModalOpen} 
-          onClose={() => setIsModalOpen(false)} 
-          onOpenLockerList={() => setIsLockerListOpen(true)}
-          branch={activeBranch} 
-        />
-        <RealtimeLockerList 
-          key="locker-list-modal-v3"
-          isOpen={isLockerListOpen}
-          onClose={() => setIsLockerListOpen(false)}
-          branchName={activeBranch.name}
-        />
-      </div>
+      <BranchDetailModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onOpenLockerList={() => setIsLockerListOpen(true)}
+        branch={activeBranch} 
+      />
+      
+      <RealtimeLockerList 
+        isOpen={isLockerListOpen}
+        onClose={() => setIsLockerListOpen(false)}
+      />
     </section>
   );
 }

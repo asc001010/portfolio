@@ -1,27 +1,25 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { X, Lock, Mail, MessageCircle, Link, Key } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, Mail, MessageCircle, Key, ArrowRight, ShieldCheck } from 'lucide-react';
 import { login, signup, signInWithSocial } from '@/app/naekko/auth/actions';
 import { useRouter } from 'next/navigation';
 
 export default function LoginModal({ isOpen, onClose }) {
   const router = useRouter();
-  const [mode, setMode] = useState('login'); // 'login' or 'signup'
+  const [mode, setMode] = useState('login'); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
 
-  // Lock body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
     }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
+    return () => { document.body.style.overflow = 'unset'; };
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -44,7 +42,6 @@ export default function LoginModal({ isOpen, onClose }) {
           setMessage(result.message);
           setLoading(false);
         } else if (result.redirectTo) {
-          // 서버 사이드 쿠키와 클라이언트 상태를 완전히 동기화하기 위해 새로고침을 실행합니다.
           window.location.reload();
         }
       }
@@ -72,115 +69,185 @@ export default function LoginModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-[150] overflow-y-auto bg-black/60 p-4 py-8 animate-in fade-in duration-200">
-      <div className="flex min-h-full items-center justify-center">
-        <div 
-          className="bg-white rounded-[2rem] w-full max-w-md shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200"
+    <AnimatePresence>
+      <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
+        {/* Backdrop */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="absolute inset-0 bg-black/60 backdrop-blur-md"
+        />
+
+        {/* Modal Card */}
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          className="relative bg-white rounded-[2.5rem] w-full max-w-md shadow-2xl overflow-hidden flex flex-col will-change-transform"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Header */}
-          <div className="p-6 pb-0 flex justify-end">
-            <button onClick={onClose} className="p-2 bg-zinc-100 rounded-full hover:bg-zinc-200 transition-colors">
-              <X className="w-5 h-5 text-zinc-600" />
+          {/* Header Action */}
+          <div className="absolute top-6 right-6 z-10">
+            <button 
+              onClick={onClose} 
+              className="p-2.5 bg-zinc-50 hover:bg-zinc-100 rounded-full transition-all active:scale-95 text-zinc-400 hover:text-zinc-600"
+            >
+              <X className="w-5 h-5" />
             </button>
           </div>
 
-          <div className="px-8 pb-10 flex flex-col items-center">
-            {/* Logo Area */}
-            <div className="w-24 h-24 bg-white rounded-full overflow-hidden border border-zinc-100 shadow-lg mb-6 flex items-center justify-center">
-              <img src="/logo.webp" alt="내꼬 로고" className="w-full h-full object-cover" />
+          <div className="p-8 sm:p-10 flex flex-col items-center">
+            {/* Brand Identity */}
+            <div className="w-20 h-20 bg-white rounded-3xl overflow-hidden border border-zinc-100 shadow-xl mb-6 flex items-center justify-center p-2 relative">
+               <img src="/logo.webp" alt="내꼬 로고" className="w-full h-full object-cover rounded-2xl" />
             </div>
             
-            <h2 className="text-2xl font-bold text-[#1D1D1F] mb-2">프리미엄 공간, 내꼬</h2>
-            <p className="text-zinc-500 text-sm text-center mb-6">
-              {mode === 'login' ? '소중한 짐을 안전하게 보관하기 위한 첫 걸음.' : '내꼬의 새로운 가족이 되어주세요.'}
-            </p>
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-black text-[#1D1D1F] mb-2 tracking-tight">프리미엄 공간, 내꼬</h2>
+              <p className="text-zinc-400 text-sm font-medium">
+                {mode === 'login' ? '소중한 짐을 위해 로그인이 필요합니다.' : '내꼬의 새로운 멤버가 되어보세요.'}
+              </p>
+            </div>
 
-            {/* Email Form */}
-            <form onSubmit={handleSubmit} className="w-full space-y-4 mb-8">
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
-                <input 
-                  type="email" 
-                  name="email"
-                  placeholder="이메일 주소" 
-                  required
-                  className="w-full h-14 pl-12 pr-4 bg-zinc-50 border border-zinc-200 rounded-2xl text-sm focus:ring-2 focus:ring-[#1B2435] focus:border-transparent outline-none transition-all"
-                />
-              </div>
-              <div className="relative">
-                <Key className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
-                <input 
-                  type="password" 
-                  name="password"
-                  placeholder="비밀번호" 
-                  required
-                  className="w-full h-14 pl-12 pr-4 bg-zinc-50 border border-zinc-200 rounded-2xl text-sm focus:ring-2 focus:ring-[#1B2435] focus:border-transparent outline-none transition-all"
-                />
+            {/* Auth Form */}
+            <form onSubmit={handleSubmit} className="w-full space-y-4">
+              <div className="space-y-3">
+                <div className="relative">
+                  <div className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-300">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <input 
+                    type="email" 
+                    name="email"
+                    placeholder="이메일 주소" 
+                    required
+                    className="w-full h-14 pl-12 pr-6 bg-zinc-50 border border-zinc-100 rounded-2xl text-[14px] font-bold focus:ring-[3px] focus:ring-blue-50 focus:border-blue-500 outline-none transition-all placeholder:text-zinc-300"
+                  />
+                </div>
+                <div className="relative">
+                  <div className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-300">
+                    <Key className="w-4 h-4" />
+                  </div>
+                  <input 
+                    type="password" 
+                    name="password"
+                    placeholder="비밀번호" 
+                    required
+                    className="w-full h-14 pl-12 pr-6 bg-zinc-50 border border-zinc-100 rounded-2xl text-[14px] font-bold focus:ring-[3px] focus:ring-blue-50 focus:border-blue-500 outline-none transition-all placeholder:text-zinc-300"
+                  />
+                </div>
               </div>
               
-              {error && <p className="text-red-500 text-xs mt-2 px-2">{error}</p>}
-              {message && <p className="text-green-600 text-xs mt-2 px-2 font-medium">{message}</p>}
+              <AnimatePresence>
+                {error && (
+                  <motion.div 
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    className="bg-red-50 text-red-500 text-[11px] font-bold p-3 rounded-xl border border-red-100 flex items-center gap-2"
+                  >
+                    <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
+                    {error}
+                  </motion.div>
+                )}
+                {message && (
+                  <motion.div 
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    className="bg-green-50 text-green-600 text-[11px] font-bold p-3 rounded-xl border border-green-100 flex items-center gap-2"
+                  >
+                    <ShieldCheck className="w-4 h-4" />
+                    {message}
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               <button 
                 type="submit" 
                 disabled={loading}
-                className="w-full h-14 bg-[#1B2435] text-white rounded-2xl font-bold hover:bg-[#1B2435]/90 transition-colors disabled:opacity-50"
+                className="w-full h-14 bg-[#1B2435] text-white rounded-2xl font-black text-sm hover:bg-black transition-all disabled:opacity-50 flex items-center justify-center gap-2 active:scale-95 shadow-xl shadow-zinc-200"
               >
-                {loading ? '처리 중...' : (mode === 'login' ? '로그인' : '회원가입')}
+                {loading ? (
+                   <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <>
+                    {mode === 'login' ? '내꼬 로그인' : '무료 회원가입'}
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
               </button>
 
-              <div className="flex justify-center mt-4">
+              <div className="flex justify-center pt-2">
                 <button 
                   type="button" 
-                  onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}
-                  className="text-xs text-zinc-500 hover:text-[#1B2435] font-medium transition-colors"
+                  onClick={() => {
+                    setMode(mode === 'login' ? 'signup' : 'login');
+                    setError(null);
+                    setMessage(null);
+                  }}
+                  className="text-xs text-zinc-400 hover:text-blue-500 font-bold transition-colors py-2"
                 >
-                  {mode === 'login' ? '아직 계정이 없으신가요? 회원가입' : '이미 계정이 있으신가요? 로그인'}
+                  {mode === 'login' ? '아직 계정이 없으신가요? 신규 가입하기' : '이미 계정이 있으신가요? 로그인하기'}
                 </button>
               </div>
             </form>
 
-            <div className="w-full h-px bg-zinc-100 mb-8 relative">
-              <span className="absolute left-1/2 -translate-x-1/2 -top-3 bg-white px-4 text-xs font-medium text-zinc-400">
-                간편 로그인
-              </span>
+            {/* Social Divider */}
+            <div className="w-full flex items-center gap-4 my-8">
+              <div className="h-px bg-zinc-100 flex-1" />
+              <span className="text-[10px] font-black text-zinc-300 uppercase tracking-widest whitespace-nowrap">Easy Connect</span>
+              <div className="h-px bg-zinc-100 flex-1" />
             </div>
 
-            {/* Social Buttons */}
-            <div className="w-full space-y-3">
-              <button 
-                type="button"
+            {/* Premium Social Buttons */}
+            <div className="w-full grid grid-cols-1 gap-3">
+              <SocialButton 
                 onClick={() => handleSocialLogin('kakao')}
-                className="w-full h-12 rounded-xl flex items-center justify-center gap-2 bg-[#FEE500] hover:bg-[#FEE500]/90 transition-colors font-semibold text-[#191919]"
-              >
-                <MessageCircle className="w-5 h-5" />
-                카카오톡으로 계속하기
-              </button>
-              <button 
-                type="button"
-                onClick={() => handleSocialLogin('naver')}
-                className="w-full h-12 rounded-xl flex items-center justify-center gap-2 bg-[#03C75A] hover:bg-[#03C75A]/90 transition-colors font-semibold text-white"
-              >
-                <span className="font-black text-lg">N</span>
-                네이버로 계속하기
-              </button>
-              <button 
-                type="button"
-                onClick={() => handleSocialLogin('google')}
-                className="w-full h-12 rounded-xl flex items-center justify-center gap-2 border border-zinc-200 bg-white hover:bg-zinc-50 transition-colors font-semibold text-zinc-700"
-              >
-                <span className="font-black text-lg text-blue-500">G</span>
-                구글 계정으로 계속하기
-              </button>
+                bgColor="bg-[#FEE500]"
+                textColor="text-[#191919]"
+                icon={<MessageCircle className="w-5 h-5" />}
+                label="카카오톡 간편 시작"
+              />
+              <div className="grid grid-cols-2 gap-3">
+                <SocialButton 
+                  onClick={() => handleSocialLogin('naver')}
+                  bgColor="bg-[#03C75A]"
+                  textColor="text-white"
+                  icon={<span className="font-black text-base">N</span>}
+                  label="네이버"
+                />
+                <SocialButton 
+                  onClick={() => handleSocialLogin('google')}
+                  bgColor="bg-white"
+                  textColor="text-zinc-600"
+                  icon={<span className="font-black text-base text-blue-500">G</span>}
+                  label="구글"
+                  border
+                />
+              </div>
             </div>
             
-            <p className="text-xs text-zinc-400 mt-8 text-center">
-              로그인함으로써 귀하는 내꼬의 <a href="#" className="underline hover:text-zinc-600">이용약관</a> 및 <a href="#" className="underline hover:text-zinc-600">개인정보처리방침</a>에 동의하게 됩니다.
+            <p className="text-[10px] text-zinc-400 mt-10 text-center leading-relaxed">
+              계속 진행함으로써 내꼬의 <a href="#" className="underline font-bold hover:text-zinc-600">이용약관</a> 및 <br/>
+              <a href="#" className="underline font-bold hover:text-zinc-600">개인정보처리방침</a>에 동의하게 됩니다.
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </AnimatePresence>
+  );
+}
+
+function SocialButton({ onClick, bgColor, textColor, icon, label, border }) {
+  return (
+    <button 
+      type="button"
+      onClick={onClick}
+      className={`h-12 rounded-2xl flex items-center justify-center gap-3 transition-all font-bold text-xs active:scale-95 ${bgColor} ${textColor} ${border ? 'border border-zinc-100' : ''} shadow-sm hover:shadow-md`}
+    >
+      {icon}
+      {label}
+    </button>
   );
 }

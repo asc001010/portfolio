@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, ExternalLink } from 'lucide-react';
+import { Clock, ExternalLink, Power } from 'lucide-react';
 import { createClient } from '@/lib/naekko/supabase/client';
 import Link from 'next/link';
 
@@ -12,26 +12,17 @@ export default function UsageTimer() {
   const [session, setSession] = useState(null);
   const [elapsedTime, setElapsedTime] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [isStopping, setIsStopping] = useState(false);
 
-  useEffect(() => {
-    let userRecord = null;
+  const fetchActiveSession = useCallback(async (userId) => {
+    if (!userId) return;
 
-    const fetchActiveSession = async (user = userRecord) => {
-      if (!user) {
-        const { data: { user: fetchedUser } } = await supabase.auth.getUser();
-        if (!fetchedUser) {
-          setIsLoading(false);
-          return;
-        }
-        userRecord = fetchedUser;
-        user = fetchedUser;
-      }
-
+    try {
       const { data, error } = await supabase
         .from('usage_sessions')
         .select('*')
         .is('ended_at', null)
-        .eq('user_id', user.id)
+        .eq('user_id', userId)
         .order('started_at', { ascending: false })
         .limit(1)
         .maybeSingle();
@@ -41,60 +32,110 @@ export default function UsageTimer() {
       } else {
         setSession(null);
       }
+    } catch (err) {
+      console.error('Session fetch error:', err);
+    } finally {
       setIsLoading(false);
-    };
+    }
+  }, []);
 
-    const setupSubscription = async () => {
+  useEffect(() => {
+    let mounted = true;
+    let channel = null;
+
+    const init = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user || !mounted) {
+        setIsLoading(false);
+        return;
+      }
       
-      userRecord = user;
-      fetchActiveSession(user);
+      await fetchActiveSession(user.id);
 
-      // Subscribe only to changes for this specific user
-      const channel = supabase
-        .channel(`usage_status_${user.id}`)
+      if (!mounted) return;
+
+      // Unique channel name for each mount to prevent reuse errors
+      const channelName = `usage_status_${user.id}_${Date.now()}`;
+      channel = supabase
+        .channel(channelName)
         .on('postgres_changes', { 
           event: '*', 
           schema: 'public', 
           table: 'usage_sessions',
           filter: `user_id=eq.${user.id}`
         }, () => {
-          fetchActiveSession(user);
+          if (mounted) fetchActiveSession(user.id);
         })
         .subscribe();
-
-      return channel;
     };
 
-    const channelPromise = setupSubscription();
+    init();
 
     return () => {
-      channelPromise.then(channel => {
-        if (channel) supabase.removeChannel(channel);
-      });
+      mounted = false;
+      if (channel) {
+        supabase.removeChannel(channel);
+      }
     };
-  }, []);
+  }, [fetchActiveSession]);
 
   useEffect(() => {
-    if (!session) return;
+    if (!session?.started_at) return;
 
-    const interval = setInterval(() => {
-      const start = new Date(session.started_at);
-      const now = new Date();
-      const diff = now - start;
+    const startTime = new Date(session.started_at).getTime();
 
-      const hours = Math.floor(diff / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    const updateTimer = () => {
+      const now = Date.now();
+      const diff = now - startTime;
 
-      setElapsedTime(
-        `${hours > 0 ? `${hours}시간 ` : ""}${minutes}분 ${seconds}초`
-      );
-    }, 1000);
+      if (diff < 0) {
+        setElapsedTime("이용 준비 중");
+        return;
+      }
+
+      const hours = Math.floor(diff / 3600000);
+      const minutes = Math.floor((diff % 3600000) / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+
+      const hDisplay = hours > 0 ? `${hours}시간 ` : "";
+      const mDisplay = `${minutes}분 `;
+      const sDisplay = `${seconds}초`;
+      
+      setElapsedTime(`${hDisplay}${mDisplay}${sDisplay}`);
+    };
+
+    updateTimer();
+    const interval = setInterval(updateTimer, 1000);
 
     return () => clearInterval(interval);
   }, [session]);
+
+  const handleStop = async (e) => {
+    e.preventDefault();
+    if (isStopping) return;
+    
+    const confirmed = window.confirm('현재 이용 중인 짐 보관 세션을 종료하시겠습니까?');
+    if (!confirmed) return;
+
+    setIsStopping(true);
+    try {
+      const res = await fetch('/api/naekko/usage/stop', { 
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      
+      if (res.ok) {
+        setSession(null);
+      } else {
+        const errData = await res.json();
+        alert(`종료 처리 중 오류가 발생했습니다: ${errData.message || '알 수 없는 오류'}`);
+      }
+    } catch (err) {
+      alert('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+    } finally {
+      setIsStopping(false);
+    }
+  };
 
   if (isLoading || !session) return null;
 
@@ -102,40 +143,43 @@ export default function UsageTimer() {
     <motion.div
       initial={{ opacity: 0, scale: 0.95, y: -10 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
-      className="flex items-center gap-2 lg:gap-3 bg-blue-50 border border-blue-100 px-3 lg:px-4 py-1.5 lg:py-2 rounded-xl lg:rounded-2xl shadow-sm"
+      className="flex items-center gap-2 md:gap-3 bg-white/80 backdrop-blur-md border border-blue-100 px-3 md:px-5 py-2 rounded-2xl shadow-sm border-l-4 border-l-blue-500"
     >
-      <div className="flex items-center justify-center w-6 h-6 lg:w-8 lg:h-8 bg-blue-500 rounded-full">
-        <Clock className="w-3 lg:w-4 h-3 lg:h-4 text-white animate-pulse" />
+      <div className="flex items-center justify-center w-7 h-7 md:w-9 md:h-9 bg-blue-500 rounded-xl shadow-lg shadow-blue-500/20">
+        <Clock className="w-4 md:w-5 h-4 md:h-5 text-white animate-pulse" />
       </div>
-      <div className="flex flex-col">
-        <span className="text-[8px] lg:text-[10px] text-blue-600 font-bold uppercase tracking-wider leading-none mb-0.5 lg:mb-1">
-          실시간 이용 중
+      
+      <div className="flex flex-col min-w-[80px] md:min-w-[100px]">
+        <span className="text-[9px] md:text-[10px] text-blue-600 font-black uppercase tracking-widest leading-none mb-1 flex items-center gap-1">
+          <div className="w-1 h-1 bg-blue-500 rounded-full animate-ping" />
+          Live Usage
         </span>
-        <span className="text-[12px] lg:text-sm font-black text-blue-900 tabular-nums leading-none">
-          {elapsedTime}
+        <span className="text-[13px] md:text-base font-black text-[#1D1D1F] tabular-nums leading-none tracking-tight">
+          {elapsedTime || "계산 중..."}
         </span>
       </div>
-      <Link 
-        href="/naekko/profile"
-        className="ml-1 lg:ml-2 p-1 lg:p-1.5 hover:bg-blue-100 rounded-lg transition-colors group"
-      >
-        <ExternalLink className="w-3 lg:w-3.5 h-3 lg:h-3.5 text-blue-400 group-hover:text-blue-600" />
-      </Link>
-      <button
-        onClick={async (e) => {
-          e.preventDefault();
-          if (confirm('이용을 종료하시겠습니까?')) {
-            const res = await fetch('/naekko/api/usage/stop', { method: 'POST' });
-            if (res.ok) {
-              setSession(null);
-              alert('이용이 종료되었습니다.');
-            }
-          }
-        }}
-        className="ml-1 lg:ml-2 bg-red-500 hover:bg-red-600 text-white text-[10px] lg:text-[11px] font-bold px-2 py-1 rounded-lg transition-colors"
-      >
-        종료
-      </button>
+
+      <div className="flex items-center gap-1 ml-2 pl-2 border-l border-zinc-100">
+        <Link 
+          href="/naekko/profile"
+          className="p-1.5 hover:bg-zinc-50 rounded-lg transition-colors text-zinc-400 hover:text-blue-500 active:scale-95"
+          title="상세보기"
+        >
+          <ExternalLink className="w-4 h-4" />
+        </Link>
+        <button
+          onClick={handleStop}
+          disabled={isStopping}
+          className="p-1.5 hover:bg-red-50 rounded-lg transition-colors text-zinc-400 hover:text-red-500 disabled:opacity-30 active:scale-95"
+          title="이용 종료"
+        >
+          {isStopping ? (
+             <div className="w-4 h-4 border-2 border-zinc-200 border-t-red-500 rounded-full animate-spin" />
+          ) : (
+            <Power className="w-4 h-4" />
+          )}
+        </button>
+      </div>
     </motion.div>
   );
 }
